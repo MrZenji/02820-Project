@@ -1,0 +1,17 @@
+{
+"title": "Automated FOREX trading",
+"members": [ 
+{ "name": "Kevin Voss Sjøbeck", 
+"study_number": "s103451"
+}, 
+{ "name": "Benjamin Maksuti",
+"study_number": "s103449"
+},
+{ "name": "Anders Wessberg", 
+"study_number": "s103477"
+}
+],
+"git": "https://github.com/MrZenji/02820-project.git", 
+"description": "This project will data mining of the different data that are available in the DTU course 02819 running in the Autumn semester of 2013. The data will include multiple choice results, code, evaluations and project proposals. We will present data on an interactive website. The data mining techniques will include unsupervized data mining of proposals to find similar find group similarity, ....",
+"modules": ["nltk", "json", "pandas", "sklearn","requests"]
+}
