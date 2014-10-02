@@ -1,5 +1,3 @@
-Welcome to this repository.. :D
-
-Hello World
-
-fuck you
+This project is about finding a profitable forecasting trading strategy 
+on the FOREX market on historical data, and test if this will
+work on a real market
