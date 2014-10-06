@@ -6,3 +6,16 @@ Number of trades
 Profits
 Profits in percentage
 Time period
+
+Milestones:
+- Successful run of a benchmark based on historical data from 1 month
+- Limit stoppers needs to be implemented
+- Getting technical indicators (QuadLib{pyQL})
+- Retrieving 1-2 years of data
+
+Benchmark:
+This project will utilize the oandapy API to get realtime data from the currency market to analyze,
+as well as enter and exit trades on based on the analytics. 
+In the analytics we are going to use a short and a long moving averages, 
+furthermore we are going to use MCAD as an extra precaution before
+we enter trades and use recovery zones to prevent losses on the account
