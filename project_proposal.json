@@ -12,6 +12,6 @@
 }
 ],
 "git": "https://github.com/MrZenji/02820-project.git", 
-"description": "This project will data mining of the different data that are available in the DTU course 02819 running in the Autumn semester of 2013. The data will include multiple choice results, code, evaluations and project proposals. We will present data on an interactive website. The data mining techniques will include unsupervized data mining of proposals to find similar find group similarity, ....",
-"modules": ["nltk", "json", "pandas", "sklearn","requests"]
+"description": "This project will utilize the oandapy API to get realtime data from the currency market to analyze, as well as enter and exit trades on based on the analytics. In the analytics we are going to use a short and a long moving averages, furthermore we are going to use MCAD as an extra precaution before we enter trades and use recovery zones to prevent losses on the account",
+"modules": ["nltk", "json", "pandas", "sklearn","requests","oandapy"]
 }
