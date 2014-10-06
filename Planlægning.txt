@@ -1,0 +1,8 @@
+Measuerable criterias:
+Account balance
+Maximum drawdown
+Accuracy of algorithm
+Number of trades
+Profits
+Profits in percentage
+Time period
