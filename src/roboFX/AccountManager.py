@@ -15,8 +15,10 @@ class AccountManager(object):
     def __init__(self, startbalance):
         self.balance = startbalance
 
-    def getBalance(self):
-        return self.balance
+    def deposit(self, amount):
+        self.balance += amount
 
     def withdraw(self):
-        return self.balance*0.3
+        tmp = self.balance * 0.02
+        self.balance -= self.balance*0.02
+        return tmp
