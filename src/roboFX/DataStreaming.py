@@ -21,11 +21,11 @@ class DataStreaming(object):
         self.data = json.load(jFile)
         jFile.close()
         self.count = 0
-        self.maxCount = len(self.data['candles'])
+        self.maxCount = len(self.data)
 
     def getData(self):
         self.count += 1
-        return self.data['candles'][self.count-1]
+        return self.data[self.count-1]
 
     def reload(self):
         self.count = 0

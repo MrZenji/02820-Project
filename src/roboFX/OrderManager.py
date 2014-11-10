@@ -53,7 +53,7 @@ class OrderManager(object):
                                     'units': amount/data['closeBid'],
                                     'price': data['closeBid'],
                                     'stopLoss': data['closeBid']*0.96,
-                                    'takeProfit': data['closeBid']*1.10})
+                                    'takeProfit': data['closeBid']*1.12})
 
     def getClosedProfit(self, period):
         return self.profit

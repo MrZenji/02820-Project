@@ -6,7 +6,7 @@ import talib
 import numpy as np
 
 
-class SignalGenerator(object):
+class RSIGenerator(object):
     '''
     This class performs the analasys of the data
     '''
