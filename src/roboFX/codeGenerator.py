@@ -7,18 +7,24 @@ from roboFX.DataStreaming import DataStreaming
 from roboFX.RSIGenerator import RSIGenerator
 from roboFX.OrderManager import OrderManager
 from roboFX.AccountManager import AccountManager
+# from roboFX.MacdSarGen import MacdSarGen
 import matplotlib.pyplot as plt
 
 
-streamer = DataStreaming(filename="fxdata.txt")
+streamer = DataStreaming(filename="data.txt")
 analasys = RSIGenerator()
+# analasys = MacdSarGen()
 accountManager = AccountManager(10000)
-manager = OrderManager(leverage=1, account=accountManager)
+manager = OrderManager(leverage=3, account=accountManager)
 
 account_data = []
 pair_data = []
+signal_data = []
 
-for i in range(536252):
+
+# max 536252  length for fxdata.txt
+# max 5000 length for data.txt
+for i in range(1000):
     tmp = streamer.getData()
     manager.update(tmp)
     signal = analasys.analyse(tmp)
@@ -28,6 +34,7 @@ for i in range(536252):
 
     account_data.append(accountManager.balance)
     pair_data.append(tmp['lowBid'])
+    signal_data.append(signal)
 
 plt.figure(1)
 plt.subplot(211)

@@ -2,6 +2,7 @@
 Created on 28/10/2014
 @author: s103451
 '''
+from roboFX.Order import Order
 
 
 class OrderManager(object):
@@ -17,43 +18,44 @@ class OrderManager(object):
         self.orders = []
 
     def update(self, data):
+        # print "open trades: "+str(len(self.orders))
         for order in self.orders:
-            if order['side'] == 1:
-                # check for if we should close an buy order
-                if order['takeProfit'] >= data['highBid']:
-                    self.account.deposit(order['units']*data['highBid'])
-                    self.orders.remove(order)
-                elif order['stopLoss'] <= data['highBid']:
-                    self.account.deposit(order['units']*data['highBid'])
-                    self.orders.remove(order)
-            elif order['side'] == -1:
-                # check for if we should close an sell order
-                if order['takeProfit'] >= data['highAsk']:
-                    self.account.deposit(order['units']*data['highAsk'])
-                    self.orders.remove(order)
-                elif order['stopLoss'] <= data['highAsk']:
-                    self.account.deposit(order['units']*data['highAsk'])
-                    self.orders.remove(order)
+            profit = order.check_for_close(data)*self.leverage
+            if profit != 0:
+                self.account.deposit(profit)
+                self.orders.remove(order)
 
     def createOrder(self, side, data):
         amount = self.account.withdraw()
 
         if amount > 0:
-            # print "place an order: "+str(side)
             if side == 1:
                 # place a buy order ask = immediate buy
+
+                self.orders.append(Order(side=1,
+                                         units=(amount/data['closeAsk']),
+                                         price=data['closeAsk'],
+                                         stopLoss=data['closeAsk']*(1-0.0005),
+                                         takeProfit=data['closeAsk']*1.0010))
+                '''
                 self.orders.append({'side': 1,
                                     'units': amount/data['closeAsk'],
                                     'price': data['closeAsk'],
-                                    'stopLoss': data['closeAsk']*0.96,
-                                    'takeProfit': data['closeAsk']*1.10})
+                                    'stopLoss': data['closeAsk']*0.98,
+                                    'takeProfit': data['closeAsk']*1.04})'''
             elif side == -1:
                 # place a sell order bid = immediate sell
-                self.orders.append({'side': -1,
+                self.orders.append(Order(side=-1,
+                                         units=(amount/data['closeBid']),
+                                         price=data['closeBid'],
+                                         stopLoss=data['closeBid']*1.005,
+                                         takeProfit=data['closeBid']*(1-0.001))
+                                   )
+                '''self.orders.append({'side': -1,
                                     'units': amount/data['closeBid'],
                                     'price': data['closeBid'],
-                                    'stopLoss': data['closeBid']*0.96,
-                                    'takeProfit': data['closeBid']*1.12})
+                                    'stopLoss': data['closeBid']*1.04,
+                                    'takeProfit': data['closeBid']*0.92})'''
 
     def getClosedProfit(self, period):
         return self.profit

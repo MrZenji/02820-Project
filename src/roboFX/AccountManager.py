@@ -19,6 +19,9 @@ class AccountManager(object):
         self.balance += amount
 
     def withdraw(self):
-        tmp = self.balance * 0.02
-        self.balance -= self.balance*0.02
-        return tmp
+        if self.balance > 2:
+            tmp = self.balance * 0.02
+            self.balance -= self.balance*0.02
+            return tmp
+        else:
+            return 0
