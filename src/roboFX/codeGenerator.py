@@ -7,15 +7,15 @@ from roboFX.DataStreaming import DataStreaming
 from roboFX.RSIGenerator import RSIGenerator
 from roboFX.OrderManager import OrderManager
 from roboFX.AccountManager import AccountManager
-# from roboFX.MacdSarGen import MacdSarGen
 import matplotlib.pyplot as plt
+from roboFX.EAGenerator import EAGenerator
 
 
 streamer = DataStreaming(filename="data.txt")
 analasys = RSIGenerator()
-# analasys = MacdSarGen()
+ea_analasys = EAGenerator()
 accountManager = AccountManager(10000)
-manager = OrderManager(leverage=3, account=accountManager)
+manager = OrderManager(leverage=1, account=accountManager)
 
 account_data = []
 pair_data = []
@@ -24,9 +24,10 @@ signal_data = []
 
 # max 536252  length for fxdata.txt
 # max 5000 length for data.txt
-for i in range(1000):
+for _ in range(300):
     tmp = streamer.getData()
     manager.update(tmp)
+    ea_analasys.analyse(tmp)
     signal = analasys.analyse(tmp)
 
     if signal != 0:
