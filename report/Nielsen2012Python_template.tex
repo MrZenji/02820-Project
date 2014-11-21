@@ -1,0 +1,280 @@
+\documentclass[10pt]{IEEEtran}
+\pdfoutput=1
+
+\usepackage{graphicx}
+%\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+%\usepackage{listings}
+%\usepackage[table]{xcolor}
+%\usepackage{pdfpages}
+
+%\hypersetup{colorlinks=true,citecolor=[rgb]{0,0.4,0}}
+
+
+\title{Online topic-sentiment mining}
+\author{Finn Årup Nielsen}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We describe a lightweight webservice that performs online topic mining
+with sentiment analyze using standard components of Python.
+It can analyze a small corpus on a few hundred small documents in a
+few hundred milliseconds.
+\end{abstract}
+
+\section{Introduction}
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum. 
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+
+\section{Methods}
+
+The webservice does not use a web framework, rather just relying on
+CGI with an Apache webserver. 
+
+For topic and sentiment mining we use
+\href{http://docs.python.org/library/re.html}{\tt re}, {\tt numpy} and
+{\tt scipy} packages.
+We use {\tt scipy.sparse} module for sparse matrix rather than the
+full matrices in standard NumPy as the bag-of-words matrices will
+usually be quite sparse.
+
+\begin{figure*}[t]
+  \centering
+\begin{verbatim}
+for n in range(0, iterations): 
+    H = np.multiply(H, (W.T * M) / (W.T * W * H + 0.001))
+    W = np.multiply(W, (M * H.T) / (W * (H * H.T) + 0.001))
+\end{verbatim}
+  \caption{Central part of the NMF algorithm implemented in three
+    lines of Python code.}
+  \label{fig:nmf}
+\end{figure*}
+
+For topic mining we used non-negative matrix factorization in a form
+of an algorithm suggested by Lee and Seung
+\cite{LeeDaniel2001Algorithms}. 
+Rather than relying on its implementation in the
+\href{http://scikit-learn.org/dev/modules/generated/sklearn.decomposition.NMF.html}{\tt
+  sklearn.decomposition} 
+module we implemented the algorithm from the bottom, see Figure~\ref{fig:nmf}. 
+For speed the algorithms uses a default of only 50 iterations.
+
+For sentiment analysis we used a word list approach relying on the
+\href{http://www2.imm.dtu.dk/pubdb/views/publication_details.php?id=6010}{AFINN}
+word list with 2477 words labeled for valence \cite{NielsenF2011New}.  
+Although there are convenient machine learning classifiers in {\tt
+  nltk} and {\tt scikits} packages we could train for classification
+of sentiment we did not have an appropriate data set for training the
+classifier. 
+
+
+The script runs in Python 2 as some of the libraries we used were not
+readily available in their Python 3 versions on the system we developed
+and ran on. 
+
+
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+The web service is a single CGI script and the listing begins at page
+\pageref{listing:brede_str_nmf}. 
+
+\section{Results}
+
+Figure~\ref{fig:topicsentiment} shows a screenshot of the webservice
+with data copy-and-pasted from the
+\href{http://en.wikipedia.org/wiki/Lundbeck}{Wikipedia article on
+  Lundbeck}. 
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+\subsection{Code checking}
+
+We used \href{http://www.logilab.org/857}{pylint} to check our coding
+quality. 
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+
+\subsection{Testing}
+
+We wrote a script that called the webscript and checked the returned
+result. 
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum. 
+
+
+\subsection{Profiling}
+
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+
+\section{Discussion}
+
+With the sentiment wordlist the sentiment analysis will only work for
+English texts.
+
+There are numerous issue with the implementation: The HTML templates
+are not appropriately separated from the code, the functions {\tt
+  components2html\_*} have redundant code, a variable called {\tt
+  wordsfreq} could be implemented as a
+\href{http://docs.python.org/dev/library/collections#collections.Counter}{\tt
+  collections.Counter}, etc. 
+Obviously unit testing could have be done if the code was well
+structured into modules, e.g., with the
+\href{https://nose.readthedocs.org/en/latest/}{\tt nose} module. 
+The simple word tokenization with the regular expression ``\verb!\w+!''
+faults for some words, e.g., ``won't'' is tokenized to the two tokens ``won'' and
+``t'' and as ``won'' is positive in the AFINN word list a positive
+bias is introduced. 
+
+There are different sparse matrix representations in scipy.sparse
+(\href{http://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html}{csr}, 
+\href{http://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csc_matrix.html}{csc}
+and 
+\href{http://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.lil_matrix.html}{lil}). 
+A proper profiling may have shown that the ``lil'' format used to set up
+the matrix is not the most efficient in the iterative algorithm and
+the
+\href{http://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.lil_matrix.html}{documentation
+  suggests} ``once a matrix has been constructed, convert to CSR or
+CSC format for fast arithmetic and matrix vector operations''.
+Furthermore, it is not clear how well sparse matrices works in
+conjunction with dense matrices: Should {\tt W} and {\tt H} in the
+{\tt nmf} function have been made sparse too?
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+
+\section{Conclusion}
+
+We implemented a fast on-the-fly topic-sentiment mining web service suitable
+for small corpora.
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{lyngby}
+
+
+\clearpage
+\onecolumn
+\appendices
+\section{Code listings}
+
+\definecolor{darkgreen}{rgb}{0, 0.4, 0}
+\lstset{language=Python,
+  numbers=left,
+  frame=bottomline,
+  basicstyle=\scriptsize,
+  identifierstyle=\color{blue},
+  keywordstyle=\bfseries,
+  commentstyle=\color{darkgreen},
+  stringstyle=\color{red},
+  literate={Ö}{{\"O}}1 {é}{{\'e}}1 {Å}{{\AA}}1,
+}
+\lstlistoflistings
+
+
+\label{listing:brede_str_nmf}\lstinputlisting{../../matlab/brede/python/brede_str_nmf}
+
+
+\newpage
+\section{Automatic generation of documentation}
+
+Demontration using epydoc:
+\begin{verbatim}
+epydoc --pdf -o /home/fnielsen/tmp/epydoc/ --name RBBase wikipedia/api.py
+\end{verbatim}
+This example does not use \verb!brede_str_nmf! but another more
+well-documented module called {\tt api.py} that are used to download
+material from Wikipedia. 
+
+\includepdf[pages={-}]{/home/fnielsen/tmp/epydoc/api.pdf}
+
+\end{document}
