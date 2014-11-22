@@ -50,10 +50,10 @@ The pseudo code of the random trading algorithm, where we will keep the orders f
 	\For{$order\: in\: orders$}	
 		\If{$order.duration >= 4$}
 			\State{$order.close()$}
-		\ElsIf{$order.takeProfit >= currentPrice$}
+		\ElsIf{$order.takeProfit >= order.profit$}
 			\State{$profitList.append(order)$}
 			\State{$order.close()$}
-		\ElsIf{$order.stopLoss <= currentPrice$}
+		\ElsIf{$order.stopLoss <= order.profit$}
 			\State{$lossList.append(order)$}
 			\State{$order.close()$}
 		\Else
