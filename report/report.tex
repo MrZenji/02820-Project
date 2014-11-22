@@ -37,10 +37,11 @@ Here will be written an introduction
 We obtain all the financial data of the financial instrument EUR vs USD on a 5 minute timeframe from oanda using their REST API for python. From oanda API we get the financial charts of the last 7 years from 2007-10-24 to 2014-10-24. After obtaining the data, it is stored in json fileformat in a file called "fxdata.txt", this allows us to use this data will then be used both to form our hypothosis of forex trading on the EUR vs USD currency pair, as well as performing a trading simulation on this set of data. However in order for us to use the naive Bayes classifier, we need to have two dataset's and not just a single one. In our domain the one dataset needs to be the trades which gained profit, and the other set needs consist of the trades which lost. When we then have the possibility to analyze the data with different sets of features.\\
 \\
 The pseudo code of the random trading algorithm, where we will keep the orders for no more than 20 minutes:
+
 \begin{center}
 \begin{algorithmic}
 \While{$streamFinancialData$}
-	\State {$i = random(10)$}
+	\State {$i = random(0,10)$}
 	\If {$i = 0$}
     	\State {$openOrder(short)$}
 	\ElsIf{$i = 1$}
@@ -55,16 +56,17 @@ The pseudo code of the random trading algorithm, where we will keep the orders f
 		\ElsIf{$order.stopLoss <= currentPrice$}
 			\State{$lossList.append(order)$}
 			\State{$order.close()$}
+		\Else
+			\State{$order.duration += 1$}
 		\EndIf
 	\EndFor
 \EndWhile
 \State{$saveListToFile(profitList,"profit.txt")$}
 \State{$saveListToFile(lossList,"loss.txt")$}
-
 \end{algorithmic}
 \end{center}
 
-This algorithm should theoretically give us equally profitable trades in both directions.
+This algorithm should theoretically give us equally profitable trades in both the long and the short direction.
 
 \section{Data Analasys}
 To analyze the data we use a naive Bayes classifier, the idea to use a naive Bayes classifier on financial data, isn't new in fact, there are a couple of scientific articles on this already as can be seen in the article \href{http://www.jsst.jp/e/JSST2012/extended_abstract/pdf/11.pdf}{Article on FX Trading using Logistic Regression}
