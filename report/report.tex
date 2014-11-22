@@ -36,17 +36,31 @@ Here will be written an introduction
 \section{Getting data}
 We obtain all the financial data of the financial instrument EUR vs USD on a 5 minute timeframe from oanda using their REST API for python. From oanda API we get the financial charts of the last 7 years from 2007-10-24 to 2014-10-24. After obtaining the data, it is stored in json fileformat in a file called "fxdata.txt", this allows us to use this data will then be used both to form our hypothosis of forex trading on the EUR vs USD currency pair, as well as performing a trading simulation on this set of data. However in order for us to use the naive Bayes classifier, we need to have two dataset's and not just a single one. In our domain the one dataset needs to be the trades which gained profit, and the other set needs consist of the trades which lost. When we then have the possibility to analyze the data with different sets of features.\\
 \\
-The pseudo code of the random trading algorithm:
+The pseudo code of the random trading algorithm, where we will keep the orders for no more than 20 minutes:
 \begin{center}
 \begin{algorithmic}
 \While{$streamFinancialData$}
 	\State {$i = random(10)$}
 	\If {$i = 0$}
-    	\State $open short trade$
+    	\State {$openOrder(short)$}
 	\ElsIf{$i = 1$}
-    	\State $open long trade$	    
+    	\State $openOrder(long)$	    
 	\EndIf
+	\For{$order\: in\: orders$}	
+		\If{$order.duration >= 4$}
+			\State{$order.close()$}
+		\ElsIf{$order.takeProfit >= currentPrice$}
+			\State{$profitList.append(order)$}
+			\State{$order.close()$}
+		\ElsIf{$order.stopLoss <= currentPrice$}
+			\State{$lossList.append(order)$}
+			\State{$order.close()$}
+		\EndIf
+	\EndFor
 \EndWhile
+\State{$saveListToFile(profitList,"profit.txt")$}
+\State{$saveListToFile(lossList,"loss.txt")$}
+
 \end{algorithmic}
 \end{center}
 
