@@ -7,6 +7,7 @@
 \usepackage{listings}
 \usepackage[table]{xcolor}
 \usepackage{pdfpages}
+\usepackage{algpseudocode}
 
 \hypersetup{colorlinks=true,citecolor=[rgb]{0,0.4,0}}
 
@@ -29,32 +30,35 @@ This project will utilize the oandapy API to get realtime data from the currency
 \end{abstract}
 
 \section{Introduction}
-
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-aliquip ex ea commodo consequat. Duis aute irure dolor in
-reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-culpa qui officia deserunt mollit anim id est laborum. 
-
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-aliquip ex ea commodo consequat. Duis aute irure dolor in
-reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-culpa qui officia deserunt mollit anim id est laborum.
+Here will be written an introduction
 
 
 \section{Getting data}
-We obtain all the financial data of the financial instrument EUR vs USD on a 5 minute timeframe from oanda using their REST API for python. From oanda API we get the financial charts of the last 7 years from 2007-10-24 to 2014-10-24. After obtaining the data, it is stored in json fileformat in a file called "fxdata.txt", this allows us to use this data will then be used both to form our hypothosis of forex trading on the EUR vs USD currency pair, as well as performing a trading simulation on this set of data.
+We obtain all the financial data of the financial instrument EUR vs USD on a 5 minute timeframe from oanda using their REST API for python. From oanda API we get the financial charts of the last 7 years from 2007-10-24 to 2014-10-24. After obtaining the data, it is stored in json fileformat in a file called "fxdata.txt", this allows us to use this data will then be used both to form our hypothosis of forex trading on the EUR vs USD currency pair, as well as performing a trading simulation on this set of data. However in order for us to use the naive Bayes classifier, we need to have two dataset's and not just a single one. In our domain the one dataset needs to be the trades which gained profit, and the other set needs consist of the trades which lost. When we then have the possibility to analyze the data with different sets of features.\\
+\\
+The pseudo code of the random trading algorithm:
+\begin{center}
+\begin{algorithmic}
+\While{$streamFinancialData$}
+	\State {$i = random(10)$}
+	\If {$i = 0$}
+    	\State $open short trade$
+	\ElsIf{$i = 1$}
+    	\State $open long trade$	    
+	\EndIf
+\EndWhile
+\end{algorithmic}
+\end{center}
+
+This algorithm should theoretically give us equally profitable trades in both directions.
 
 \section{Data Analasys}
-To analyze the data we use a naive Bayes classifier, the idea to use a naive Bayes classifier on financial data, isn't new in fact, there are a couple of scientific articles on this already as can be seen in the article 
+To analyze the data we use a naive Bayes classifier, the idea to use a naive Bayes classifier on financial data, isn't new in fact, there are a couple of scientific articles on this already as can be seen in the article \href{http://www.jsst.jp/e/JSST2012/extended_abstract/pdf/11.pdf}{Article on FX Trading using Logistic Regression}
+
+
 
 \section{Implementation}
-This section will describe how we implemented a trading strategy based on our data analasys \cite{fx_naive_bayes}
+This section will describe how we implemented a trading strategy based on our data analasys 
 
 
 \section{Research}
