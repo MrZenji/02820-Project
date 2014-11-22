@@ -48,13 +48,13 @@ The pseudo code of the random trading algorithm, where we will keep the orders f
     	\State $openOrder(long)$	    
 	\EndIf
 	\For{$order\: in\: orders$}	
-		\If{$order.duration >= 4$}
-			\State{$order.close()$}
-		\ElsIf{$order.takeProfit <= order.profit$}
+		\If{$order.takeProfit <= order.value$}
 			\State{$profitList.append(order)$}
 			\State{$order.close()$}
-		\ElsIf{$order.stopLoss >= order.profit$}
+		\ElsIf{$order.stopLoss >= order.value$}
 			\State{$lossList.append(order)$}
+			\State{$order.close()$}
+		\ElsIf{$order.duration >= 4$}
 			\State{$order.close()$}
 		\Else
 			\State{$order.duration += 1$}
