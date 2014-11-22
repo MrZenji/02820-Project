@@ -11,7 +11,7 @@
 \hypersetup{colorlinks=true,citecolor=[rgb]{0,0.4,0}}
 
 
-\title{Data mining med python: \\Automated FOREX trading}
+\title{Data mining with python: \\Automated FOREX trading}
 \author{
 	Kevin Voss Sjøbeck(s103451)\\
 	\and
@@ -46,6 +46,17 @@ reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
 pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
 culpa qui officia deserunt mollit anim id est laborum.
 
+
+\section{Getting data}
+We obtain all the financial data of the financial instrument EUR vs USD on a 5 minute timeframe from oanda using their REST API for python. From oanda API we get the financial charts of the last 7 years from 2007-10-24 to 2014-10-24. After obtaining the data, it is stored in json fileformat in a file called "fxdata.txt", this allows us to use this data will then be used both to form our hypothosis of forex trading on the EUR vs USD currency pair, as well as performing a trading simulation on this set of data.
+
+\section{Data Analasys}
+To analyze the data we use a naive Bayes classifier, the idea to use a naive Bayes classifier on financial data, isn't new in fact, there are a couple of scientific articles on this already as can be seen in the article 
+
+\section{Implementation}
+This section will describe how we implemented a trading strategy based on our data analasys \cite{fx_naive_bayes}
+
+
 \section{Research}
 Article on FX Trading using Logistic Regression
 $http://www.jsst.jp/e/JSST2012/extended_abstract/pdf/11.pdf$
@@ -58,7 +69,6 @@ Trading & FX & Forex \\
 Trading & MA & Moving Average\\
 Machine Learning & NBC & Naive Bayes Classifiers\\
 \end{tabular}
-
 
 
 
