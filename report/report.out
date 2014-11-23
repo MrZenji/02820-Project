@@ -1,5 +1,10 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{Getting data}{}% 2
-\BOOKMARK [1][-]{section.3}{Data Analasys}{}% 3
-\BOOKMARK [1][-]{section.4}{Implementation}{}% 4
-\BOOKMARK [1][-]{section.5}{Terms \046 abbrivations}{}% 5
+\BOOKMARK [1][-]{section.2}{Analysis}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Getting data}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Specific features}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Design}{}% 5
+\BOOKMARK [1][-]{section.4}{Implementation}{}% 6
+\BOOKMARK [1][-]{section.5}{Test \046 Results}{}% 7
+\BOOKMARK [1][-]{section.6}{Discussion}{}% 8
+\BOOKMARK [1][-]{section.7}{Conclusion}{}% 9
+\BOOKMARK [1][-]{section.8}{Terms \046 abbrivations}{}% 10
