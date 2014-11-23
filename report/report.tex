@@ -10,11 +10,21 @@
 \usepackage{algpseudocode}
 \usepackage{tikz}
 \usetikzlibrary{shapes,shadows,arrows}
-\tikzstyle{decision} = [diamond, draw, fill=blue!50]
+
+%style to be used on block diagrams
 \tikzstyle{block} = [draw,rectangle, fill=white]
 \tikzstyle{line} = [draw,thick]
 \tikzstyle{arrowLine} = [draw,-stealth,thick]
 
+%style to be used on flow charts diagrams
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=2.5cm,
+minimum height=0.75cm,text centered, draw=black,fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle=70,trapezium right angle=110,
+minimum width=2.5cm,minimum height=0.75cm,text centered, draw=black,fill=blue!30]
+\tikzstyle{process} = [rectangle, minimum width=2.5cm, minimum height=0.75cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{decision} = [diamond, minimum width=2cm, minimum height=0.5cm, 
+text centered, draw=black,fill=green!30]
+\tikzstyle{flowArrow} = [thick,->,->=stealth]
 
 
 
@@ -111,7 +121,27 @@ The first round of features, is using some of the most common technical indicato
 
 
 \section{Design}
-Before we start trading, we need to start to train our classifier based on the feature set we would like to test. After the training is completed we can then start to trade based on our historical data. When the historical back testing is completed, the result of the trade is then shown on a graph, showing the balance of the account of a 5 minute interval.
+Before we start trading, we need to start to train our classifier based on the feature set we would like to test. After the training is completed we can then start to trade based on our historical data. When the historical back testing is completed, the result of the trade is then shown on a graph, showing the balance of the account of a 5 minute interval. Here is a flow chart, showing how the flow of the forex data, and the decisions are being made.
+
+\begin{figure}
+\begin{center}
+	\begin{tikzpicture}[node distance=2cm]
+		%blocks
+		\node[startstop](start){Start};
+		\node[io, below of=start](io){input};
+		\node[process, below of=io](pro1){Process 1};		
+		\node[decision, below of=pro1,yshift=-0.5cm](dec1){Decission 1};	
+		\node[startstop, below of=dec1,yshift=-0.5cm](stop){Stop};		
+		
+		%arrows			
+		\draw[flowArrow](start)--(io);
+		\draw[flowArrow](io)--(pro1);		
+		\draw[flowArrow](pro1)--(dec1);				
+		\draw[flowArrow](dec1)--(stop);						
+	\end{tikzpicture}
+\end{center}
+\caption{Flowchart of decision making}
+\end{figure}
 
 \begin{figure}
 \begin{center}
@@ -127,10 +157,10 @@ Before we start trading, we need to start to train our classifier based on the f
 		\node[block,below of=2ndClassifier](3rdClassifier){3rdClassifier};						
 		%arrows
 		\path[arrowLine](streamer)--(driver);		
-		\path[arrowLine](driver)--(accountManager);				
-		\path[line](orderManager)--(driver);
+		\path[arrowLine](accountManager)--(driver);				
+		\path[arrowLine](driver)--(orderManager);
 		\path[line](orderManager)--(order);
-		\path[line](signalGenerator)--(driver);
+		\path[arrowLine](signalGenerator)--(driver);
 		\path[line](signalGenerator)--(1stClassifier);		
 		\path[line](1stClassifier)--(2ndClassifier);
 		\path[line](2ndClassifier)--(3rdClassifier);				
