@@ -4,6 +4,7 @@ Created on 28/10/2014
 @param units: The amount of valuta you would like to trade
 @author: s103451
 '''
+from roboFX.Constants import SIDE
 
 
 class Order(object):
@@ -17,25 +18,33 @@ class Order(object):
         self.stopLoss = stopLoss
         self.takeProfit = takeProfit
         self.cost = self.units * self.price
+        self.duration = 288
+
+    def jdefault(self, o):
+        return o.__dict__
+
+    def close(self, forexData):
+        if self.side == 1:
+            return (self.units*forexData['closeBid']) - self.cost
+        elif self.side == -1:
+            return (self.cost - (self.units * forexData['closeAsk']))
 
     def check_for_close(self, forexData):
         # check if the long order meets our criterias, and should stop
-        if self.side == 1:
-            if forexData['lowAsk'] < self.takeProfit < forexData['highAsk']:
-                # print "long - profit"
-                return (self.units*self.takeProfit)-self.cost
-            elif forexData['lowAsk'] < self.stopLoss < forexData['highAsk']:
-                # print "long - loss"
-                return (self.units*self.stopLoss)-self.cost
-        elif self.side == -1:
+        self.duration -= 1
+        if self.side == SIDE.LONG:
+            if forexData['lowBid'] >= self.takeProfit:
+                return (self.units*self.takeProfit) - self.cost
+            elif forexData['lowBid'] <= self.stopLoss:
+                return (self.units*self.stopLoss) - self.cost
+            elif self.duration <= 0:
+                return (self.units*forexData['closeBid']) - self.cost
+        elif self.side == SIDE.SHORT:
             # Close the order with profit
-            if forexData['lowBid'] < self.takeProfit < forexData['highBid']:
-                # print "short - profit["
-                # print str(self.cost-self.takeProfit*self.units+self.cost)+":"+str(self.cost)+"]"
-                return (self.cost - (self.units * self.takeProfit)) + self.cost
-            # Close the order with a acceptable loss
-            elif forexData['lowBid'] < self.stopLoss < forexData['highBid']:
-                # print "short - lose"
-                return (self.cost - (self.units * self.stopLoss)) + self.cost
-
+            if self.takeProfit >= forexData['highAsk']:
+                return (self.cost - (self.units * self.takeProfit))
+            elif self.stopLoss <= forexData['highAsk']:
+                return (self.cost - (self.units * self.stopLoss))
+            elif self.duration <= 0:
+                return (self.cost - (self.units * forexData['closeAsk']))
         return 0

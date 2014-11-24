@@ -3,7 +3,7 @@ Created on 28/10/2014
 @author: s103451
 '''
 from roboFX.Chromosome import Chromosome
-from roboFX.Constants import OPERATOR
+from roboFX.Constants import OPERATOR, SIDE
 from random import randint
 from roboFX.OrderManager import OrderManager
 from roboFX.AccountManager import AccountManager
@@ -41,9 +41,9 @@ class EAGenerator(object):
                                    operator=OPERATOR.GTE,
                                    expected_value=30),
                         Chromosome(technical_indicator=0,
-                                    period=100,
-                                    operator=OPERATOR.LSE,
-                                    expected_value=70)]
+                                   period=100,
+                                   operator=OPERATOR.LSE,
+                                   expected_value=70)]
 
     def analyse(self, data):
         self.open.pop(0)
@@ -57,20 +57,28 @@ class EAGenerator(object):
         self.volume.pop(0)
         self.volume.append(data['volume'])
 
+    # get signal of specific dna, input
+    # is either dna or tmp_dna
+    def get_signal(self, dna):
         signal_indicator = 0
 
-        for chrome in self.dna:
-            if chrome.signal():
+        for chrome in input:
+            if chrome.signal() == SIDE.LONG:
                 signal_indicator += 1
+            elif chrome.signal() == SIDE.SHORT:
+                signal_indicator -= 1
 
         if signal_indicator >= len(self.dna)/2:
-            return 1
+            return SIDE.LONG
+        elif signal_indicator <= -len(self.dna)/2:
+            return SIDE.SHORT
         else:
             return 0
 
+    # mutate the tmp_dna
     def mutate(self):
         # Give 1/n'th chance of mutating the different chromosones.
-        for chrome in self:
+        for chrome in self.tmp_dna:
             if randint(0, len(self.dna)) == 1:
                 chrome.mutate()
 
