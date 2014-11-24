@@ -27,8 +27,7 @@ text centered, draw=black,fill=green!30]
 \tikzstyle{flowArrow} = [thick,->,->=stealth]
 
 
-
-\hypersetup{colorlinks=true,citecolor=[rgb]{0,0.4,0}}
+\hypersetup{colorlinks=true,citecolor=[rgb]{0,0.0,0}}
 
 
 \title{Data mining with python: \\Automated FOREX trading}
@@ -128,16 +127,24 @@ Before we start trading, we need to start to train our classifier based on the f
 	\begin{tikzpicture}[node distance=2cm]
 		%blocks
 		\node[startstop](start){Start};
-		\node[io, below of=start](io){input};
-		\node[process, below of=io](pro1){Process 1};		
-		\node[decision, below of=pro1,yshift=-0.5cm](dec1){Decission 1};	
-		\node[startstop, below of=dec1,yshift=-0.5cm](stop){Stop};		
+		\node[io, below of=start](fx_price){get FX prices};
+		\node[decision, below of=fx_price,yshift=-0.5cm](analyze){Analyze prices};	
+		\node[process, right of=analyze, xshift=1.25cm](long){open Long trade};
+		\node[process, left of=analyze, xshift=-1.25cm](short){open Short trade};
+		\node[process, below of=analyze,yshift=-0.5cm](no_trade){don't trade};		
+		\node[process, below of=no_trade](manage){manage open trades};				
+		\node[startstop, below of=manage](stop){Stop};		
 		
 		%arrows			
-		\draw[flowArrow](start)--(io);
-		\draw[flowArrow](io)--(pro1);		
-		\draw[flowArrow](pro1)--(dec1);				
-		\draw[flowArrow](dec1)--(stop);						
+		\draw[flowArrow](start)--(fx_price);
+		\draw[flowArrow](fx_price)--(analyze);		
+		\draw[flowArrow](analyze)--(long);		
+		\draw[flowArrow](analyze)--(short);						
+		\draw[flowArrow](analyze)--(no_trade);						
+		\draw[flowArrow](no_trade)--(manage);
+		\draw[flowArrow](short)--(manage);		
+		\draw[flowArrow](long)--(manage);		
+		\draw[flowArrow](manage)--(stop);		
 	\end{tikzpicture}
 \end{center}
 \caption{Flowchart of decision making}
