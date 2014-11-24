@@ -159,7 +159,8 @@ Before we start trading, we need to start to train our classifier based on the f
 		\node[block,left of=driver,xshift=-5em](orderManager){OrderManager};
 		\node[block,below of=orderManager](order){Order};		
 		\node[block,right of=driver,xshift=5em](signalGenerator){SignalGenerator};
-		\node[block,below of=signalGenerator](1stClassifier){1stClassifier};		
+		\node[block,below of=signalGenerator](random){RandomTrader};				
+		\node[block,below of=random](1stClassifier){1stClassifier};		
 		\node[block,below of=1stClassifier](2ndClassifier){2ndClassifier};		
 		\node[block,below of=2ndClassifier](3rdClassifier){3rdClassifier};						
 		%arrows
@@ -168,7 +169,8 @@ Before we start trading, we need to start to train our classifier based on the f
 		\path[arrowLine](driver)--(orderManager);
 		\path[line](orderManager)--(order);
 		\path[arrowLine](signalGenerator)--(driver);
-		\path[line](signalGenerator)--(1stClassifier);		
+		\path[line](signalGenerator)--(random);				
+		\path[line](random)--(1stClassifier);		
 		\path[line](1stClassifier)--(2ndClassifier);
 		\path[line](2ndClassifier)--(3rdClassifier);				
 	\end{tikzpicture}
