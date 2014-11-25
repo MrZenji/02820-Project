@@ -138,8 +138,8 @@ The first round of features, is using some of the most common technical indicato
 		\draw[flowArrow](analyze)--(short);						
 		\draw[flowArrow](analyze)--(no_trade);						
 		\draw[flowArrow](no_trade)--(manage);
-		\draw[flowArrow](short)--(manage);		
-		\draw[flowArrow](long)--(manage);		
+		\draw[flowArrow](short)--(-3.25,-9)--(manage);		
+		\draw[flowArrow](long)--(3.25,-9)--(manage);		
 		\draw[flowArrow](manage)--(stop);		
 	\end{tikzpicture}
 \end{center}
