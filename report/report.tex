@@ -8,6 +8,7 @@
 \usepackage[table]{xcolor}
 \usepackage{pdfpages}
 \usepackage{algpseudocode}
+\usepackage{natbib}
 \usepackage{tikz}
 \usetikzlibrary{shapes,shadows,arrows}
 
@@ -89,7 +90,7 @@ The pseudo code of the random trading algorithm, where we will keep the orders f
 This algorithm should theoretically give us equally profitable trades in both the long and the short direction.
 
 \subsection{Specific features}
-To analyze the data we use a supervised classification learning algorithm, or to be more specific we use a naive Bayes classifier, the idea is to use a naive Bayes classifier on our financial data we gathered using our random algorithm. This isn't a new concept, in fact there are a couple of scientific articles on this already, as can be seen in the article \href{http://www.jsst.jp/e/JSST2012/extended_abstract/pdf/11.pdf}{Article on FX Trading using Logistic Regression}. We will train the classifier on some specific features, however we will only use 2-3 features per training round. The training will be made in two rounds and the features are the following
+To analyze the data we use a supervised classification learning algorithm, or to be more specific we use a naive Bayes classifier, the idea is to use a naive Bayes classifier on our financial data we gathered using our random algorithm. This isn't a new concept, in fact there are a couple of scientific articles on this already, as can be seen in the article by \cite{fxNaiveBayes}. We will train the classifier on some specific features, however we will only use 2-3 features per training round. The training will be made in two rounds and the features are the following
 \begin{enumerate}
 \item{
 	\begin{itemize}
@@ -193,14 +194,7 @@ Here we explain about the program itself
 \section{Conclusion}
 
 
-
 \section{Terms \& abbrivations}
-
-
-
-
-
-
 \begin{tabular}{l | l | l}
 Domain & Term or Abbreviation &  Meaning  \\
 \hline
@@ -215,7 +209,8 @@ Machine Learning & NBC & Naive Bayes Classifiers\\
 
 
 
-
+\bibliographystyle{plainnat}
+\bibliography{roboFX}
 
 
 \end{document}
