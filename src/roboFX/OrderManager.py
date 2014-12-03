@@ -5,6 +5,8 @@ Created on 28/10/2014
 from roboFX.Order import Order
 from roboFX.Constants import SIDE
 import json
+import talib
+import numpy as np
 
 
 class OrderManager(object):
@@ -19,9 +21,32 @@ class OrderManager(object):
         self.account = account
         self.orders = []
         self.profit = 0
-        self.records = {"profitOrders": [], "lossOrders": []}
+        self.records = {"longOrders": [], "shortOrders": []}
+
+        # variables to analyze fx_data
+        '''
+        All of the OCHL data uses the bid prices
+        '''
+        self.open = [None] * 100
+        self.close = [None]*100
+        self.high = [None]*100
+        self.low = [None]*100
+        self.volume = [None]*100
+
+    def save_fx_data(self, fxData):
+        self.open.pop(0)
+        self.open.append(fxData['openBid'])
+        self.close.pop(0)
+        self.close.append(fxData['closeBid'])
+        self.high.pop(0)
+        self.high.append(fxData['highBid'])
+        self.low.pop(0)
+        self.low.append(fxData['lowBid'])
+        self.volume.pop(0)
+        self.volume.append(fxData['volume'])
 
     def update(self, data):
+        self.save_fx_data(data)
         to_be_removed = []
         for order in self.orders:
             profit = order.check_for_close(data)*self.leverage
@@ -36,33 +61,84 @@ class OrderManager(object):
         for order in to_be_removed:
             self.orders.remove(order)
 
+    def get_signals(self):
+        # First Classifier Signals
+        rsi_100 = talib.RSI(np.array(self.close), timeperiod=99)[-1]
+        sma_101 = talib.SMA(np.array(self.close), timeperiod=10)[-1]
+        sma_102 = talib.SMA(np.array(self.close), timeperiod=10)[-2]
+        sma_401 = talib.SMA(np.array(self.close), timeperiod=40)[-1]
+        sma_402 = talib.SMA(np.array(self.close), timeperiod=40)[-2]
+
+        # Second Classifier Signals
+        open_bid = self.open[-1]
+        close_bid = self.close[-1]
+        volume = self.volume[-1]
+        # The volatility of the market within 5-minutes
+        spread = self.high[-1]-self.low[-1]
+
+        # Third Classifier Signals
+        macd = talib.MACD(np.array(self.close))[-1][-1]
+
+        sar = talib.SAR(np.array(self.high), np.array(self.low))[-1]
+
+        return {"rsi(100)": rsi_100,
+                "sma(10,40)": self.crossing_graphs(sma_102, sma_101,
+                                                   sma_402, sma_401),
+                "openBid": open_bid,
+                "closeBid": close_bid,
+                "volume": volume,
+                "spread": spread,
+                "macd_signal": macd,
+                "sar": sar
+                }
+
+    '''
+    This method checks if two graphs have crossed
+    and returns a value of
+    1 if they have crossed and graphOne ends above
+    -1 if they have crossed and graphOne ends below
+    0 if they havn't crossed
+    '''
+    def crossing_graphs(self, graphOne1, graphOne2, GraphTwo1, GraphTwo2): 
+        if graphOne1 > GraphTwo1 and graphOne2 < GraphTwo2:
+            return -1
+        elif graphOne1 < GraphTwo1 and graphOne2 > GraphTwo2:
+            return 1
+        else:
+            return 0
+
     def createOrder(self, side, data):
-        amount = self.account.withdraw()
+        if None not in self.open:
+            amount = self.account.withdraw()
+            if amount > 0:
+                if side == SIDE.LONG:
+                    # place a buy order ask = immediate buy
+                    self.orders.append(Order(side=SIDE.LONG,
+                                             units=(amount/data['closeAsk']),
+                                             price=data['closeAsk'],
+                                             stopLoss=data['lowBid']*(1-0.0005),
+                                             takeProfit=data['closeAsk']*1.0010,
+                                             signals=self.get_signals()
+                                             )
+                                       )
+                elif side == SIDE.SHORT:
+                    # place a sell order bid = immediate sell
+                    self.orders.append(Order(side=SIDE.SHORT,
+                                             units=(amount/data['closeBid']),
+                                             price=data['closeBid'],
+                                             stopLoss=data['highAsk']*1.005,
+                                             takeProfit=data['closeBid']*(1-0.0010),
+                                             signals=self.get_signals()
+                                             )
+                                       )
 
-        if amount > 0:
-
-            if side == SIDE.LONG:
-                # place a buy order ask = immediate buy
-                self.orders.append(Order(side=SIDE.LONG,
-                                         units=(amount/data['closeAsk']),
-                                         price=data['closeAsk'],
-                                         stopLoss=data['lowBid']*(1-0.0005),
-                                         takeProfit=data['closeAsk']*1.0010))
-            elif side == SIDE.SHORT:
-                # place a sell order bid = immediate sell
-                self.orders.append(Order(side=SIDE.SHORT,
-                                         units=(amount/data['closeBid']),
-                                         price=data['closeBid'],
-                                         stopLoss=data['highAsk']*1.005,
-                                         takeProfit=data['closeBid']*(1-0.0010)
-                                         )
-                                   )
-
+    # if an order makes profit, save it for record keeping
     def record_order(self, order, profit):
         if profit > 0:
-            self.records["profitOrders"].append(order)
-        elif profit < 0:
-            self.records["lossOrders"].append(order)
+            if order.side == SIDE.LONG:
+                self.records["longOrders"].append(order)
+            elif order.side == SIDE.SHORT:
+                self.records["shortOrders"].append(order)
 
     def getClosedProfit(self):
         return self.profit
@@ -82,17 +158,17 @@ class OrderManager(object):
         self.orders = []
 
     def save_records(self):
-        with open("profitList.txt", 'w') as proFile:
+        with open("longList.txt", 'w') as proFile:
             output = "["
-            for order in self.records['profitOrders']:
+            for order in self.records['longOrders']:
                 output += json.dumps(order, default=order.jdefault,
                                      indent=1)+","
             output = output[0:-1]+"]"
             proFile.write(output)
 
-        with open("lossList.txt", 'w') as lossFile:
+        with open("shortList.txt", 'w') as lossFile:
             output = "["
-            for order in self.records['lossOrders']:
+            for order in self.records['shortOrders']:
                 output += json.dumps(order, default=order.jdefault,
                                      indent=1)+","
             output = output[0:-1]+"]"

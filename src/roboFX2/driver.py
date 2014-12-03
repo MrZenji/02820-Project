@@ -9,6 +9,9 @@ from roboFX.Constants import SIDE
 from roboFX.DataStreaming import DataStreaming
 from roboFX.OrderManager import OrderManager
 from roboFX2.RandomTrader import RandomTrader
+from roboFX2.FirstClassifier import FirstClassifier
+from roboFX2.SecondClassifier import SecondClassifier
+from roboFX2.ThirdClassifier import ThirdClassifier
 
 
 streamer = DataStreaming(filename="data.txt")
@@ -17,19 +20,17 @@ manager = OrderManager(leverage=20, account=accountManager)
 
 account_data = []
 pair_data = []
-signal_data = []
 
-analyzer = RandomTrader()
-
+analyzer = FirstClassifier()
+analyzer.train()
+analyzer.show_most_informative_features()
 
 for i in range(streamer.maxCount):
     tmp = streamer.getData()
-
+    manager.update(tmp)
     if i == (streamer.maxCount-1):
         manager.closeAllTrades(tmp)
-    elif i != (streamer.maxCount-1):
-        manager.update(tmp)
-
+    elif i != (streamer.maxCount-1) and i >= 100:
         signal = analyzer.analyse(tmp)
 
         if signal != 0:
@@ -38,18 +39,17 @@ for i in range(streamer.maxCount):
             elif signal == SIDE.LONG:
                 manager.createOrder(SIDE.LONG, tmp)
 
-    account_data.append(accountManager.balance)
+    account_data.append(manager.getClosedProfit())
     pair_data.append(tmp['lowBid'])
-    signal_data.append(signal)
 
-manager.save_records()
+# manager.save_records()
 print "Balance: "+str(accountManager.balance)
 print "closed_profit: " + str(manager.getClosedProfit())
 print "open_orders: "+str(manager.getNrOpenOrders())
 plt.figure(1)
 plt.subplot(211)
 plt.plot(account_data)
-plt.ylabel('account balance')
+plt.ylabel('closed profit')
 plt.subplot(212)
 plt.plot(pair_data, color='green')
 plt.ylabel('EUR/USD')
