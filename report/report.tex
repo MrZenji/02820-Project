@@ -22,7 +22,7 @@
 minimum height=0.75cm,text centered, draw=black,fill=red!30]
 \tikzstyle{io} = [trapezium, trapezium left angle=70,trapezium right angle=110,
 minimum width=2.5cm,minimum height=0.75cm,text centered, draw=black,fill=blue!30]
-\tikzstyle{process} = [rectangle, minimum width=2.5cm, minimum height=0.75cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{process} = [rectangle, minimum width=2.25cm, minimum height=0.75cm, text centered, draw=black, fill=orange!30]
 \tikzstyle{decision} = [diamond, minimum width=2cm, minimum height=0.5cm, 
 text centered, draw=black,fill=green!30]
 \tikzstyle{flowArrow} = [thick,->,->=stealth]
@@ -110,9 +110,7 @@ To analyze the data we use a supervised classification learning algorithm, or to
 \item{
 	\begin{itemize}
 		\item{Parabolic SAR default settings (0.02, 0.2)}
-		\item{MACD (period=9)}
-		\item{MACD(period=12)}
-		\item{MACD(period=26)}		
+		\item{MACD default settings (fast=12, slow = 15, period=9)}
 	\end{itemize}
 }
 \end{enumerate}
@@ -188,6 +186,12 @@ Before we start trading, we need to start to train our classifier based on the f
 Here we explain about the program itself
 
 \section{Test \& Results}
+
+\subsection{Test}
+All of the classifiers will be tested using both a sort term test, and a long term test, the short term test is from September 2014 to October 2014, stretching over 5000 times 5 minutes. The long term test is stretching from 24th of October 2007 to 24th of October 2014 corresponding to about 535.000(536.252) times 5 minutes.
+All of the classifiers have been tested using a strategy with take profit, and stop losses of a risk of 1:2 meaning that for every dollar you risk, you can only earn 2 dollars, also the order is automatically stopped if a stop criteria hasn't been meet in 20 minutes.
+
+\subsection{Results}
 
 \section{Discussion}
 
