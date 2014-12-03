@@ -11,7 +11,7 @@ class Order(object):
     '''
     This class is an representation of a forex order
     '''
-    def __init__(self, units, side, price, stopLoss, takeProfit):
+    def __init__(self, units, side, price, stopLoss, takeProfit, signals):
         self.side = side
         self.units = units
         self.price = price
@@ -19,6 +19,7 @@ class Order(object):
         self.takeProfit = takeProfit
         self.cost = self.units * self.price
         self.duration = 288
+        self.signals = signals
 
     def jdefault(self, o):
         return o.__dict__
