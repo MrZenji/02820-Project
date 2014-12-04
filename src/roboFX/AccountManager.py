@@ -16,9 +16,11 @@ class AccountManager(object):
         self.balance = startbalance
 
     def deposit(self, amount):
+        '''Deposits money to our account'''
         self.balance += amount
 
     def withdraw(self):
+        '''Withdraws 2% of the current balance from our account'''
         if self.balance > 2:
             tmp = self.balance * 0.02
             self.balance -= self.balance*0.02

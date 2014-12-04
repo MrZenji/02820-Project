@@ -9,8 +9,8 @@ import json
 class DataStreaming(object):
     '''
     This class is responsible for exposing the data
-    to the rest of the system, it should be able to
-    use both live data as well as history data.
+    to the rest of the system, it is only using
+    historical data from a file.
     '''
 
     def __init__(self, filename="data.txt"):
@@ -24,8 +24,10 @@ class DataStreaming(object):
         self.maxCount = len(self.data)
 
     def getData(self):
+        '''Returns a candle of data'''
         self.count += 1
         return self.data[self.count-1]
 
     def reload(self):
+        '''Reset data the pointer'''
         self.count = 0

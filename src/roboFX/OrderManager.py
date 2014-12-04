@@ -13,8 +13,6 @@ class OrderManager(object):
     '''
     This class is responsible to execute and update
     the orders depending on the market and the orderType
-    This class is also responsible to manage the profibility
-    of the current strategy.
     '''
     def __init__(self, leverage, account):
         self.leverage = leverage
@@ -34,6 +32,7 @@ class OrderManager(object):
         self.volume = [None]*100
 
     def save_fx_data(self, fxData):
+        '''Saves current data that is retrieved'''
         self.open.pop(0)
         self.open.append(fxData['openBid'])
         self.close.pop(0)
@@ -46,6 +45,7 @@ class OrderManager(object):
         self.volume.append(fxData['volume'])
 
     def update(self, data):
+        '''Updating orders and closing orders'''
         self.save_fx_data(data)
         to_be_removed = []
         for order in self.orders:
@@ -62,6 +62,7 @@ class OrderManager(object):
             self.orders.remove(order)
 
     def get_signals(self):
+        '''Creating signals'''
         # First Classifier Signals
         rsi_100 = talib.RSI(np.array(self.close), timeperiod=99)[-1]
         sma_101 = talib.SMA(np.array(self.close), timeperiod=10)[-1]
@@ -92,22 +93,24 @@ class OrderManager(object):
                 "sar": sar
                 }
 
-    '''
-    This method checks if two graphs have crossed
-    and returns a value of
-    1 if they have crossed and graphOne ends above
-    -1 if they have crossed and graphOne ends below
-    0 if they havn't crossed
-    '''
-    def crossing_graphs(self, graphOne1, graphOne2, GraphTwo1, GraphTwo2): 
-        if graphOne1 > GraphTwo1 and graphOne2 < GraphTwo2:
+    def crossing_graphs(self, firstGraphOne, secondGraphOne,
+                        firstGraphTwo, secondGraphTwo):
+        '''
+        This method checks if two graphs have crossed
+        and returns a value of
+        1 if they have crossed and firstGraphOne ends above,
+        -1 if they have crossed and secondGraphOne ends below
+        0 if they havn't crossed
+        '''
+        if firstGraphOne > firstGraphTwo and secondGraphOne < secondGraphTwo:
             return -1
-        elif graphOne1 < GraphTwo1 and graphOne2 > GraphTwo2:
+        elif firstGraphOne < firstGraphTwo and secondGraphOne > secondGraphTwo:
             return 1
         else:
             return 0
 
     def createOrder(self, side, data):
+        '''This method creates an order'''
         if None not in self.open:
             amount = self.account.withdraw()
             if amount > 0:
@@ -132,8 +135,11 @@ class OrderManager(object):
                                              )
                                        )
 
-    # if an order makes profit, save it for record keeping
     def record_order(self, order, profit):
+        '''
+        If an order makes profit,
+        save it for record keeping
+        '''
         if profit > 0:
             if order.side == SIDE.LONG:
                 self.records["longOrders"].append(order)
@@ -141,12 +147,15 @@ class OrderManager(object):
                 self.records["shortOrders"].append(order)
 
     def getClosedProfit(self):
+        '''Returning closed profit'''
         return self.profit
 
     def getNrOpenOrders(self):
+        '''Returning number of open orders'''
         return len(self.orders)
 
     def closeAllTrades(self, data):
+        '''Closes all open trades'''
         for order in self.orders:
             profit = order.close(data)*self.leverage
             cost = order.cost
@@ -158,6 +167,7 @@ class OrderManager(object):
         self.orders = []
 
     def save_records(self):
+        '''Saves all the recorded orders to files'''
         with open("longList.txt", 'w') as proFile:
             output = "["
             for order in self.records['longOrders']:

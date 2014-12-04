@@ -2,6 +2,9 @@
 Created on 24/11/2014
 
 @author: s103451
+
+This is our driver that runs
+the back testing program
 '''
 import matplotlib.pyplot as plt
 from roboFX.AccountManager import AccountManager
@@ -10,8 +13,6 @@ from roboFX.DataStreaming import DataStreaming
 from roboFX.OrderManager import OrderManager
 from roboFX.RandomTrader import RandomTrader
 from roboFX.FirstClassifier import FirstClassifier
-#from roboFX.SecondClassifier import SecondClassifier
-#from roboFX.ThirdClassifier import ThirdClassifier
 
 
 streamer = DataStreaming(filename="data.txt")
@@ -21,9 +22,10 @@ manager = OrderManager(leverage=20, account=accountManager)
 account_data = []
 pair_data = []
 
-analyzer = RandomTrader()
-#analyzer.train()
-#analyzer.show_most_informative_features()
+# analyzer = RandomTrader()
+analyzer = FirstClassifier()
+analyzer.train()
+# analyzer.show_most_informative_features()
 
 for i in range(streamer.maxCount):
     tmp = streamer.getData()
@@ -43,6 +45,7 @@ for i in range(streamer.maxCount):
     pair_data.append(tmp['lowBid'])
 
 # manager.save_records()
+'''Print out result data'''
 print "Balance: "+str(accountManager.balance)
 print "closed_profit: " + str(manager.getClosedProfit())
 print "open_orders: "+str(manager.getNrOpenOrders())

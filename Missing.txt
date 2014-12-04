@@ -1,7 +1,20 @@
-Check variable names
+Check variable names - Ser fine ud
 Testing
-Docstrings
+Docstrings - Der mangler nogle
 README.MD
+
+Kig rapport igennem for stavefejl og forståelses fejl.
+
+Før vi skriver pseudo kode for random trader skal
+der lige stå hvorfor vi bruger den
+
+pseudo kode skal også rettes til, det er ikke helt pseudo kode
+fodnoter hvor vi nævner andre artikler
+
+Find ud af om de features vi vil bruge er de rigtige
+Information on hvilke features der er best skal have reference
+design skal lige omformuleres
+implementeringen skal skrives
 
 report:
 - Introduction

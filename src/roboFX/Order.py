@@ -21,17 +21,25 @@ class Order(object):
         self.duration = 288
         self.signals = signals
 
-    def jdefault(self, o):
-        return o.__dict__
+    def jdefault(self, obj):
+        '''
+        This method converts the object
+        to JSON format
+        '''
+        return obj.__dict__
 
     def close(self, forexData):
+        '''Closing an order'''
         if self.side == 1:
             return (self.units*forexData['closeBid']) - self.cost
         elif self.side == -1:
             return (self.cost - (self.units * forexData['closeAsk']))
 
     def check_for_close(self, forexData):
-        # check if the long order meets our criterias, and should stop
+        '''
+        Check if the order meets our criteria's,
+        and should stop
+        '''
         self.duration -= 1
         if self.side == SIDE.LONG:
             if forexData['lowBid'] >= self.takeProfit:

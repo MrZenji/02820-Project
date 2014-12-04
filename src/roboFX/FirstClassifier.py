@@ -35,6 +35,7 @@ class FirstClassifier(object):
             self.length = self.godData
 
     def features(self, example_order):
+        '''Features for our classifier'''
         return {"sma(10,40)": example_order["signals"]['sma(10,40)'],
                 "rsi100": example_order["signals"]['rsi(100)'],
                 "openBid": example_order["signals"]['openBid'],
@@ -44,6 +45,7 @@ class FirstClassifier(object):
                 }
 
     def train(self):
+        '''This method trains the classifier'''
         featuresetLong = [(self.features(ind), 'long')
                           for ind in self.godData[0:self.length]]
 
@@ -54,6 +56,13 @@ class FirstClassifier(object):
                                                           featuresetShort)
 
     def analyse(self, signals):
+        '''
+        This method analyse's the signal
+        with the classifier, and if the
+        probability of the classifier is
+        above a chosen confidence interval
+        it trades according to the classified signal
+        '''
         tmp = self.classifier.classify(signals)
 
         confidence = self.classifier.prob_classify(signals).prob(tmp)
@@ -67,4 +76,5 @@ class FirstClassifier(object):
             return 0
 
     def show_most_informative_features(self):
+        '''Prints the 100 most informative features'''
         print self.classifier.show_most_informative_features(n=100)
