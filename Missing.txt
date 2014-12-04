@@ -1,23 +1,43 @@
-Check variable names - Ser fine ud
-Testing
-Docstrings - Der mangler nogle
-README.MD
+Check variable names - Done
+Testing - Done
+Docstrings - Done
+README.MD - Kevin
 
 Kig rapport igennem for stavefejl og forståelses fejl.
 
-Før vi skriver pseudo kode for random trader skal
-der lige stå hvorfor vi bruger den
-
-pseudo kode skal også rettes til, det er ikke helt pseudo kode
 fodnoter hvor vi nævner andre artikler
 
 Find ud af om de features vi vil bruge er de rigtige
 Information on hvilke features der er best skal have reference
-design skal lige omformuleres
-implementeringen skal skrives
 
 report:
-- Introduction
-- Test and result
-- Discussion
+- Introduction - Benjamin
+- Design - Benjamin
+- Implementation
+
+  order:
+	check_for_close
+  orderManager:
+	signal generator
+	update
+	crossgraph
+  classifier:
+	features
+
+
+- Test and result - Benjamin
+
+classifier:
+data - 0.96 - 10000 - 20
+data - 0.96 - 10000 - 400
+data - 0.85 - 10000 - 20
+fxdata - 0.96 - 10000 - 20
+newdata.txt - 0.96 - 10000 - 20
+new2data.txt -0.96 - 10000 - 20
+
+random :
+data - 10000 - 20
+fxdata - 10000 - 20
+
+- Discussion - Benjamin
 - Conclussion
