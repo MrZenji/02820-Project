@@ -7,18 +7,20 @@ import nltk
 from roboFX.Constants import SIDE
 
 
-class FirstClassifier(object):
+class Classifier(object):
     '''
     This class performs the analasys of the data
     '''
 
     def __init__(self,
                  god_file_name="longList.txt",
-                 bad_file_name="shortList.txt"):
+                 bad_file_name="shortList.txt",
+                 conf_intval=0.96):
         '''
         All of the OCHL data uses the bid prices
         '''
         self.count = 0
+        self.conf_intval = conf_intval
 
         # load examples of profitable trades
         godFile = open(god_file_name)
@@ -67,7 +69,7 @@ class FirstClassifier(object):
 
         confidence = self.classifier.prob_classify(signals).prob(tmp)
 
-        if confidence >= 0.85:
+        if confidence >= self.conf_intval:
             if tmp == "long":
                 return SIDE.LONG
             elif tmp == "short":

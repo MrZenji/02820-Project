@@ -12,7 +12,7 @@ from roboFX.Constants import SIDE
 from roboFX.DataStreaming import DataStreaming
 from roboFX.OrderManager import OrderManager
 from roboFX.RandomTrader import RandomTrader
-from roboFX.FirstClassifier import FirstClassifier
+from roboFX.Classifier import Classifier
 
 
 streamer = DataStreaming(filename="data.txt")
@@ -23,7 +23,7 @@ account_data = []
 pair_data = []
 
 # analyzer = RandomTrader()
-analyzer = FirstClassifier()
+analyzer = Classifier(conf_intval=0.96)
 analyzer.train()
 # analyzer.show_most_informative_features()
 
