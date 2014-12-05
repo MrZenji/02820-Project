@@ -109,13 +109,13 @@ The first round of features, is using some of the most common technical indicato
 	\begin{tikzpicture}[node distance=2cm]
 		%blocks
 		\node[startstop](start){Start};
-		\node[io, below of=start](fx_price){get FX prices};
-		\node[decision, below of=fx_price,yshift=-0.5cm](analyze){Analyze prices};	
+		\node[io, below of=start,yshift=0.5cm](fx_price){get FX prices};
+		\node[decision, below of=fx_price,yshift=-0.25cm](analyze){Analyze prices};	
 		\node[process, right of=analyze, xshift=1.25cm](long){open Long trade};
 		\node[process, left of=analyze, xshift=-1.25cm](short){open Short trade};
-		\node[process, below of=analyze,yshift=-0.5cm](no_trade){don't trade};		
-		\node[process, below of=no_trade](manage){manage open trades};				
-		\node[startstop, below of=manage](stop){Stop};		
+		\node[process, below of=analyze,yshift=-0.25cm](no_trade){don't trade};		
+		\node[process, below of=no_trade,yshift=0.5cm](manage){manage open trades};				
+		\node[startstop, below of=manage,yshift=0.5cm](stop){Stop};		
 		
 		%arrows			
 		\draw[flowArrow](start)--(fx_price);
@@ -124,8 +124,8 @@ The first round of features, is using some of the most common technical indicato
 		\draw[flowArrow](analyze)--(short);						
 		\draw[flowArrow](analyze)--(no_trade);						
 		\draw[flowArrow](no_trade)--(manage);
-		\draw[flowArrow](short)--(-3.25,-9)--(manage);		
-		\draw[flowArrow](long)--(3.25,-9)--(manage);		
+		\draw[flowArrow](short)--(-3.25,-7.5)--(manage);		
+		\draw[flowArrow](long)--(3.25,-7.5)--(manage);		
 		\draw[flowArrow](manage)--(stop);		
 	\end{tikzpicture}
 \end{center}
@@ -135,7 +135,7 @@ The first round of features, is using some of the most common technical indicato
 
 \section{Design}
 Before we start trading, we need to train our classifier based on the feature set we mentioned in the analysis. After the training is completed, we can then start trading based on our historical data. 
-After a completed run of the historical data, the result of the trade is then shown on a graph, showing the profit/loss of a 5 minute interval. Figure 1. is showing a flowchart of how the trading cycles. From this we know that we need a driver to run the program, that retrieves signals from either the Random trader or the classifier, depending on what is chosen. The driver then creates orders of trades, but to keep track of them all, we need an order manager. The driver also needs to be able to withdraw/deposit money to an account manager. Figure 2. is showing the class diagram on how we will implement it all.  
+After a completed run of the historical data, the result of the trade is then shown on a graph, showing the profit/loss of a 5 minute interval. Figure 1. is showing a flowchart of how the trading cycles. From this we know that we need a driver to run the program, that retrieves signals from either the Random trader or the classifier, depending on what is chosen. The driver then creates orders of trades, but to keep track of them all, we need an order manager. The driver also needs to be able to withdraw/deposit money to an account manager. Figure 2. is showing the class diagram on how we will implement it all.\\
 
 
 
@@ -171,11 +171,14 @@ Here we explain about the program itself
 
 \section{Test \& Results}
 \subsection{Test}
-Our control test are made by running the program on the data.txt, with a leverage at 20, an account on 10000\$, and set the confidence level of the classifier at 96\%. When the program have gone though data.txt, we retrieve the profit/loss. Hereafter we deviate one variable from the control, firstly we change the leverage to 400, then we change the confidence level of the classifier to 85\%, then we use data that goes from 2007 to 2014, then newer data going from 2014/11/10 -2014/12/03 and the last data we go through is from the 2014/12/03 with a 5 second interval.\\
+Our control test are made by running the program on the data.txt(roughly 23 days), with a leverage at 20, an account on 10000\$, and set the confidence level of the classifier at 96\%. When the program have gone though data, we retrieve the profit/loss. Hereafter we deviate one variable from the control, firstly we change the leverage to 400, then we change the confidence level of the classifier to 85\%.\\
+We also want to check different datasets, the largest dataset goes from 2007 to 2014(, roughly 2557 days), then we use a data set that is newer than the control, going from 2014/11/10 - 2014/12/03(roughly 24 days) and the last data we go through is roughly a single day, the 2014/12/03, with a 5 second interval.\\
 \\
 We also test the random trader to see how effective it is, on both the control data and the large data FOOTNOTE The result may differ because the trade is random.\\
 \\
-We have generated graphs for each test, that shows the profit/loss on each interval, and the exchange rate for EUR/USD on each interval. FOOTNOTE See appendix for graphs
+We have generated graphs for each test, that shows the profit/loss on each interval, and the exchange rate for EUR/USD on each interval. FOOTNOTE See appendix for all graphs
+
+Now that we have several test data, with the profit and by knowing how many days each data spanned over, we calculate the daily profit/loss for each test.
 \subsection{Results}
 
 \begin{tabular}{  l | c | c | c |}
@@ -185,7 +188,7 @@ We have generated graphs for each test, that shows the profit/loss on each inter
 \multicolumn{1}{ |c| }{leverage=400} & 8974,66 & 23 & 390,20 \\ \hline
 \multicolumn{1}{ |c| }{confidence=0.85} & 189,32 & 23 & 8,23 \\ \hline
 \multicolumn{1}{ |c| }{Large data} & -7251,99 & 2557 & -2,84 \\ \hline
-\multicolumn{1}{ |c| }{Never data} & 31,54 & 24 & 1,31 \\ \hline
+\multicolumn{1}{ |c| }{Newer data} & 31,54 & 24 & 1,31 \\ \hline
 \multicolumn{1}{ |c| }{One day data} & 36,18 & 1 & 36,18 \\ \hline
 \multicolumn{1}{ |c| }{One day data leverage=400} & 713,91 & 1 & 713,91 \\ \hline
 \multicolumn{1}{ |c| }{Random Control} & -398,45 & 23 & -17,32 \\ \hline
@@ -194,16 +197,29 @@ We have generated graphs for each test, that shows the profit/loss on each inter
 \end{tabular}
 
 \section{Discussion}
+Vis graf for control data\\
+Snak om bedste og dårligste med control data - hvorfor\\
+snak om large data\\
+snak om ny data\\
+snak om one day data \\
+snak om random trader\\
+
+\begin{figure}[h]
+    \includegraphics[scale = 0.5]{data-96-10000-20.png}
+    \caption{Billedet af Labymide fra traileren.}
+\end{figure}
 
 \section{Conclusion}
 
 
 \section{Terms \& abbrivations}
 \begin{tabular}{l | l | l}
-Domain & Term or Abbreviation &  Meaning  \\
+& Term or &\\
+Domain & Abbreviation & Meaning\\
 \hline
 Trading & FX & Forex \\ 
-Trading & Bid & An offer made by an investor, a trader or a dealer to buy a security\\
+Trading & Bid & An offer made by an investor,\\
+& & a trader or a dealer to buy a security\\
 Trading & Ask & The price a seller is willing to accept for a security\\
 Trading & SMA & Simple Moving Average\\
 Trading & MACD & Moving Average Convergence/Divergence\\
