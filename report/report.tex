@@ -9,6 +9,7 @@
 \usepackage{pdfpages}
 \usepackage{algpseudocode}
 \usepackage{natbib}
+\usepackage{tabularx}
 \usepackage{tikz}
 \usetikzlibrary{shapes,shadows,arrows}
 
@@ -228,7 +229,8 @@ A classifier that updates it self with newer data.
 Using other features
 
 \section{Terms \& abbrivations}
-\begin{tabular}{l | l | l}
+\begin{table}[h!]
+\begin{tabularx}{0.5\textwidth}{ l | l | X }
 & Term or &\\
 Domain & Abbreviation & Meaning\\
 \hline
@@ -240,7 +242,8 @@ Trading & SMA & Simple Moving Average\\
 Trading & MACD & Moving Average Convergence/Divergence\\
 Trading & SAR & Parabolic SAR(Parabolic Stop and Reverse)\\
 Machine Learning & NBC & Naive Bayes Classifiers\\
-\end{tabular}
+\end{tabularx}
+\end{table}
 
 
 %plainnat
