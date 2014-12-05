@@ -15,9 +15,9 @@ from roboFX.RandomTrader import RandomTrader
 from roboFX.Classifier import Classifier
 
 
-streamer = DataStreaming(filename="data.txt")
+streamer = DataStreaming(filename="new2data.txt")
 accountManager = AccountManager(10000)
-manager = OrderManager(leverage=20, account=accountManager)
+manager = OrderManager(leverage=400, account=accountManager)
 
 account_data = []
 pair_data = []
