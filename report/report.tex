@@ -146,8 +146,6 @@ Due to our research on investment strategies our classifier should use the follo
 Before we start trading, we need to train our classifier based on the feature set we mentioned in the analysis. After the training is completed, we can then start trading based on our historical data. 
 After a completed run of the historical data, the result of the trade is then shown on a graph, showing the profit/loss of a 5 minute interval. Figure 1. is showing a flowchart of how the trading cycles. From this we know that we need a driver to run the program, that retrieves signals from either the Random trader or the classifier, depending on what is chosen. The driver then creates orders of trades, but to keep track of them all, we need an order manager. The driver also needs to be able to withdraw/deposit money to an account manager. Figure 2. is showing the class diagram on how we will implement it all.\\
 
-
-
 \begin{figure}
 \begin{center}
 	\begin{tikzpicture}
@@ -172,9 +170,6 @@ After a completed run of the historical data, the result of the trade is then sh
 \caption{Overview of Classes}
 \end{figure}
 
-
-
-
 \section{Implementation}
 \input{implementation}
 
@@ -183,9 +178,9 @@ After a completed run of the historical data, the result of the trade is then sh
 Our control test are made by running the program on the data.txt(roughly 23 days), with a leverage at 20, an account on 10000\$, and set the confidence level of the classifier at 96\%. When the program have gone though data, we retrieve the profit/loss. Hereafter we deviate one variable from the control, firstly we change the leverage to 400, then we change the confidence level of the classifier to 85\%.\\
 We also want to check different datasets, the largest dataset goes from 2007 to 2014(, roughly 2557 days), then we use a data set that is newer than the control, going from 2014/11/10 - 2014/12/03(roughly 24 days) and the last data we go through is roughly a single day, the 2014/12/03, with a 5 second interval.\\
 \\
-We also test the random trader to see how effective it is, on both the control data and the large data FOOTNOTE The result may differ because the trade is random.\\
+We also test the random trader to see how effective it is, on both the control data and the large data.\footnote{The result may differ because the trade is random}\\
 \\
-We have generated graphs for each test, that shows the profit/loss on each interval, and the exchange rate for EUR/USD on each interval. FOOTNOTE See appendix for all graphs
+We have generated graphs for each test, that shows the profit/loss on each interval, and the exchange rate for EUR/USD on each interval.\footnote{See appendix for all graphs}
 
 Now that we have several test data, with the profit and by knowing how many days each data spanned over, we calculate the daily profit/loss for each test.
 \subsection{Results}
@@ -212,7 +207,7 @@ In these cases, the test with leverage on 400 gets the best result, even though 
 When we reduce the confidence level to 85\%, the classifier opens more trades, that have a higher risk, than with the leverage. This is duo to that you might get profit on more trades but the profit on each trade is closely the same, but duo to the higher risk you might also loose profit on more orders than earlier.\\
 So if lowering the confidence level was a higher risk, then raising the confidence level will lower the risk. This is somewhat true, because raising the confidence level to high, only prevents the classifier of making any orders and therefore never trades.\\  
 \begin{figure}[h]
-    \includegraphics[scale = 0.5]{data-96-10000-20.png}
+    \includegraphics[scale = 0.4]{data-96-10000-20.png}
     \caption{This is a graph of the closed profit, on the control data, with a 5 min interval.}
 \end{figure}
 \\
