@@ -213,7 +213,7 @@ When we reduce the confidence level to 85\%, the classifier opens more trades, t
 So if lowering the confidence level was a higher risk, then raising the confidence level will lower the risk. This is somewhat true, because raising the confidence level to high, only prevents the classifier of making any orders and therefore never trades.\\  
 \begin{figure}[h]
     \includegraphics[scale = 0.5]{data-96-10000-20.png}
-    \caption{This is a graph of the closed profit, on the control data.}
+    \caption{This is a graph of the closed profit, on the control data, with a 5 min interval.}
 \end{figure}
 \\
 The next three result are where we keep the variables the same, but change the data we test on. So far we have had profit on each test, but with the large dataset, we get a closed profit of about -7250. Even though it might seem a lot, it is less than 3 dollars a day, spanning over 7 years. This shows that even with a confidence level on 96\%, you still might lose your money. By looking at the graph for the large data\footnote{See appendix for graph}, we see that in the beginning, the classifier creates positive profit, but as we go on it looses. This might be because that we do not update the classifier each state.\\
@@ -249,8 +249,10 @@ Machine Learning & NBC & Naive Bayes Classifiers\\
 \bibliographystyle{plain}
 \bibliography{roboFX}
 
-\section{Appendix}
+\newpage
 
+\section{Appendix}
+\pagebreak
 \begin{figure}
     \includegraphics[scale = 0.5]{data-96-10000-20.png}
     \caption{This is a graph of the closed profit, on the control data, with a 5 min interval.}
