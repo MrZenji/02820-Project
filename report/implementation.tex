@@ -67,5 +67,92 @@ This method saves all the records of the orders into two seperate files, one fil
 
 
 \subsection{Classifier}
-Explain a bit more in detail how the Classifier works, by going a little into detail in how a naive bayes classifier works. And what the meaning of the confidence interval is.
-features
+In order to analyze our data we use a naive bayes classifier, and make the assumption that all of our features are independent despite coming from the same data source, this really ain't true, but if we take a short review of our choosen features we can clearly see that the majority of our features actually are independent. the volume, spread, openBid, RSI and even the evaluation of the two SMA graphs all of these features are independent of each other, in fact the only two features that depend on each other is the openBid and the closeBid. The naive baysian classifier is trained based on the following equation.
+\\
+\begin{center}
+$ P(label|features) = \frac{P(label)*P(features|label)}{P(features)}$
+\end{center}
+
+In short for every feature there is certain probability of a specific label. This means that when the classifier classifies based on our features it uses the accumulated probability, it doesn't base it's 'guess' on the feature that has the highest probability.
+However this way to calculate the probability can actually be used to our advantage, in such a way so we only open trades, when we have a confidence interval greater than a specified amount, in most statistics analyses the confidence interval chosen is 95\% however in our case we choose 96\% due to the reason, that we only want to open trades if we are really certain upon our guess.
+The way we trade based on the classifier is that for every candle worth of data, we get the features of the latest FX data from the dataManager, according to these features we then let our classifier take an 'educated' guess, and if the classifier is more certain than the specified confidence interval it tells the dataManager to open a trade in the specified direction.
+
+
+\subsection{Order}
+In the terminology of the FX market, an order contains all the relevant informations regarding the positions the trader opens. The information, that every order needs to have is the following.
+\\
+\\
+the \textbf{required} is shown in bold
+\begin{itemize}
+\item{\textbf{units}}
+\item{\textbf{side}}
+\item{take profit}
+\item{stop loss}
+\item{duration or expatriation date}
+\item{signals}
+\end{itemize}
+
+In addition to these properties the Order class does also contain the following methods.
+\begin{itemize}
+\item{check for close}
+\item{close}
+\end{itemize}
+
+However we choose to save even more, we also store the signals the order was based on, this data will later be used by the classifier. 
+In trading it's usually not enough to know, when it is smart to enter a trade. You also need to know when you should exit a trade, or to say it in terms of the FX market, you need to know when you should close your orders. In our implementation we do this by letting the order be set by some goals on the take profit, and stop loss and if the price ever reaches above or below those prices the order will return how much it's worth in the account currency. All the logic about when the order should be closed is happening in the check for close method. The close method is used to close the order right now. In other words, the check for close will only close the order if the order reaches it take profit or stop losses points or if it has reached it expiration date.
+One thing that is very important to stress is that every time we close an order we take the spread into consideration and sell or buy at the lowest price. The way that we take the spread into consideration is that we buy at the highest available price, and sell at the lowest available price.
+
+\subsection{Order Manager}
+Our order manager is the main part of our system, not only does it keep a hold on every order and updates the orders with the newest price information on the currency pair, in order to check the orders if they should be closed or not. It also builds signals based on it's record of the 100 latest candles of price information. Furthermore this class is also responsible for the creation of orders, and while creating the orders make certain that the spread is taken into account, in the same way we do it, when the orders is closed by buying high, and selling low. A quick site-note regarding to the spread, is that the spread is often how the Brokers make their money, so the brokers don't care if we win or lose money on their platform as long as we keep trading, since the spread is almost like a tax on every \$ or euro you buy.
+
+The class contains the following variables
+\begin{itemize}
+\item{account:AccountManager}
+\item{leverage: Integer}
+\item{profit: Double}
+\item{orders: List}
+\item{records: Dict}
+\\
+\\
+\underline{The OCHLV data}
+\item{open:List(100)}
+\item{close:List(100)}
+\item{high:List(100)}
+\item{low:List(100)}
+\item{volume:List(100)}
+\end{itemize}
+
+and it contains the following methods
+\begin{itemize}
+\item{update}
+\\
+This method checks if the open orders should be closed
+\item{getSignals}\\
+This method get the signals based on the current price candle
+\item{crossingGraphs}\\
+Test if two graphs cross each other, and gives a signal based  on their distance to each other in the y direction.
+\item{createOrder}\\
+This functions calls the account manager, and gets how many units should be opened for this position, and opens a trade corresponding to the side given as a parameter to the method.
+\item{recordOrder}\\
+This method is use to keep record of all of our previous trades.
+\item{getClosedProfit}\\
+This method return the accumulated profit based on all the closed orders
+\item{getNrOpenOrders}\\
+This method returns the number of open trades, this method is at the current time only used for debugging purposes, however it is easy to see that one could make a strategy, where no more than 5 orders should be opened at any time.
+\item{closeAllTrades}\\
+This method closes all open orders, we only use this method when we reach the last of our dataset, since it would be unfair to our algorithms if we had open orders, since we only use the closed profit as a parameter to see if we generate a profit.
+\item{saveRecords}\\
+This method saves all the records of the orders into two seperate files, one file for the profitable long trades, and another file for the profitable short trades, both of these files are saved in a JSON file format.
+\end{itemize}
+
+
+\subsection{Classifier}
+In order to analyze our data we use a naive bayes classifier, and make the assumption that all of our features are independent despite coming from the same data source, this really ain't true, but if we take a short review of our choosen features we can clearly see that the majority of our features actually are independent. the volume, spread, openBid, RSI and even the evaluation of the two SMA graphs all of these features are independent of each other, in fact the only two features that depend on each other is the openBid and the closeBid. The naive baysian classifier is trained based on the following equation.
+\\
+\begin{center}
+$ P(label|features) = \frac{P(label)*P(features|label)}{P(features)}$
+\end{center}
+
+In short for every feature there is certain probability of a specific label. This means that when the classifier classifies based on our features it uses the accumulated probability, it doesn't base it's 'guess' on the feature that has the highest probability.
+However this way to calculate the probability can actually be used to our advantage, in such a way so we only open trades, when we have a confidence interval greater than a specified amount, in most statistics analyses the confidence interval chosen is 95\% however in our case we choose 96\% due to the reason, that we only want to open trades if we are really certain upon our guess.
+The way we trade based on the classifier is that for every candle worth of data, we get the features of the latest FX data from the dataManager, according to these features we then let our classifier take an 'educated' guess, and if the classifier is more certain than the specified confidence interval it tells the dataManager to open a trade in the specified direction.
