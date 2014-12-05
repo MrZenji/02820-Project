@@ -27,6 +27,24 @@ Explain about this class is managing every open order, and is also responsible f
 
 Our order manager is the main part of our system, not only does it keep a hold on every order and updates the orders with the newest price information on the currency pair, in order to check the orders if they should be closed or not. It also builds signals based on it's record of the 100 latest candles of price information. Furthermore this class is also responsible for the creation of orders, and while creating the orders make certain that the spread is taken into account, in the same way we do it, when the orders is closed by buying high, and selling low. A quick site-note regarding to the spread, is that the spread is often how the Brokers make their money, so the brokers don't care if we win or lose money on their platform as long as we keep trading, since the spread is almost like a tax on every \$ or euro you buy.
 
+The class contains the following variables
+\begin{itemize}
+\item{account:AccountManager}
+\item{leverage: Integer}
+\item{profit: Double}
+\item{orders: List}
+\item{records: Dict}
+\\
+\\
+\underline{The OCHLV data}
+\item{open:List(100)}
+\item{close:List(100)}
+\item{high:List(100)}
+\item{low:List(100)}
+\item{volume:List(100)}
+\end{itemize}
+
+
 \subsection{Classifier}
 Explain a bit more in detail how the Classifier works, by going a little into detail in how a naive bayes classifier works. And what the meaning of the confidence interval is.
 features
