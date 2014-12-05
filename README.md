@@ -6,7 +6,7 @@ on the FOREX market on historical data, and use the historical data to train a n
 <h2>Requirements</h2>
 <ul>
 	<li>Python2.7</li>
-	<li>TA-Lib</li>
+	<li>[TA-Lib](http://ta-lib.org/hdr_dw.html) already installed</li>
 	<li>TA-Lib python wrapper</li>
 </ul>
 
@@ -21,3 +21,26 @@ or use
 "$pip install TA-Lib"
 <br />
 <br />
+
+
+<h3>Short guide on how to install TA-Lib on the different OS</h3>
+##### Mac OS X
+
+```
+$ brew install ta-lib
+```
+
+##### Windows
+
+Download [ta-lib-0.4.0-msvc.zip](http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-msvc.zip)
+and unzip to ``C:\ta-lib``
+
+##### Linux
+
+Download [ta-lib-0.4.0-src.tar.gz](http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz) and:
+```
+$ untar and cd
+$ ./configure --prefix=/usr
+$ make
+$ sudo make install
+```
