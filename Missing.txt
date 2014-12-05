@@ -15,7 +15,7 @@ Information on hvilke features der er best skal have reference
 report:
 - Introduction - Benjamin
 - Design - Benjamin DONE
-- Implementation
+- Implementation - Kevin
 
   order:
 	check_for_close
