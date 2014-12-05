@@ -49,13 +49,20 @@ and it contains the following methods
 This method checks if the open orders should be closed
 \item{getSignals}\\
 This method get the signals based on the current price candle
-\item{crossingGraphs}
-\item{createOrder}
-\item{recordOrder}
-\item{getClosedProfit}
-\item{getNrOpenOrders}
-\item{closeAllTrades}
-\item{saveRecords}
+\item{crossingGraphs}\\
+Test if two graphs cross each other, and gives a signal based  on their distance to each other in the y direction.
+\item{createOrder}\\
+This functions calls the account manager, and gets how many units should be opened for this position, and opens a trade corresponding to the side given as a parameter to the method.
+\item{recordOrder}\\
+This method is use to keep record of all of our previous trades.
+\item{getClosedProfit}\\
+This method return the accumulated profit based on all the closed orders
+\item{getNrOpenOrders}\\
+This method returns the number of open trades, this method is at the current time only used for debugging purposes, however it is easy to see that one could make a strategy, where no more than 5 orders should be opened at any time.
+\item{closeAllTrades}\\
+This method closes all open orders, we only use this method when we reach the last of our dataset, since it would be unfair to our algorithms if we had open orders, since we only use the closed profit as a parameter to see if we generate a profit.
+\item{saveRecords}\\
+This method saves all the records of the orders into two seperate files, one file for the profitable long trades, and another file for the profitable short trades, both of these files are saved in a JSON file format.
 \end{itemize}
 
 
