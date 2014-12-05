@@ -49,7 +49,9 @@ This project will utilize the oandapy API to get realtime data from the currency
 \end{abstract}
 
 \section{Introduction}
-Here will be written an introduction
+We all know the feeling about having money, but we also know the feeling of all the work we have to do in order of getting the money.
+But what if you could have someone doing it for you? In this project we will try to make an automated trading bot. This bot will use oanda's API and in that way get a currency data and make trades on it.
+For retrieving the data and making trades we will use machine learning with python, and in that way hopefully end out with some sort of profit.
 
 
 \section{Analysis}
@@ -215,6 +217,7 @@ We therefore also made a test data, that was newer than both the large data and 
 \\
 So far all our data have been collected over several day's, with a 5 min interval. We therefore decided to have a data set from a single day, with a 5 sec interval instead. This gave us the most profitable closed profit, at two times more than the control, a day.\\
 \\
+To see how well our classifier works, we use our Random trader with both the control data, and the larger data, these test represents how a normal person might trade. We ran these test several times, and not a single time did we end with a positive closed profit. This is quite expected, and also shows that without having knowledge of professional trader, or in our case having a bot trading for you.
 
 \section{Conclusion}
 
