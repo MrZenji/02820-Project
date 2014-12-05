@@ -50,8 +50,8 @@ This project will utilize the oandapy API to get realtime data from the currency
 \end{abstract}
 
 \section{Introduction}
-We all know the feeling about having money, but we also know the feeling of all the work we have to do in order of getting the money.
-But what if you could have someone doing it for you? In this project we will try to make an automated trading bot. This bot will use oanda's API and in that way get a currency data and make trades on it.
+We all know the feeling about having money, but we also know the feeling of all the work we have to do in order to get the money.
+But what if you could have someone doing it for you? In this project we will try to make an automated trading bot. This bot will use oanda's API, and in that way get a currency data and make trades on it.
 For retrieving the data and making trades we will use machine learning with python, and in that way hopefully end out with some sort of profit.
 
 
@@ -94,7 +94,7 @@ This algorithm should theoretically give us equally profitable trades in both th
 
 \subsection{Specific features}
 To analyse the data we use a supervised classification learning algorithm, or to be more specific we use a naive Bayes classifier. The idea is to use a naive Bayes classifier, on our financial data that we gathered using our random algorithm. This isn't a new concept, in fact there are a couple of scientific articles on this already, as can be seen in the article by KAWABATA and TAKATA \cite{fxNaiveBayes}.\\ 
-We will train the classifier on some specific features, accordingly to what we found on the internet. One of the indicators many beginners are told to use, are two moving averages, and when the functions cross it's an indicator to enter a trade, and also in what direction to enter the trade, the reasons why this is a good idea is explained in this video \href{https://www.youtube.com/watch?v=2_csKQ6iqx4}{https://www.youtube.com/watch?v=2_csKQ6iqx4} from a website called "Financialtradingschool.com", he also explains about Price Action and how to use it in a strategy in the following video \href{https://www.youtube.com/watch?v=6FPfY1z1MyA}{https://www.youtube.com/watch?v=6FPfY1z1MyA}. So far we know, that we should look at two SMA functions, a slow and a fast, and look at when they cross. We also know that we should look at the prices directly in order to use it for Price Action, however since Price Action really is just a strategy to trade if the price reaches a certain point, we let our classifier doing the job, of defining when to trade or not directly based on the current prices of the currencies. Another indicator we found using the powerful internet was the relative strength index or the RSI indicator as it, is called in finance. Directly cited from \href{http://www.investopedia.com/terms/r/rsi.asp}{http://www.investopedia.com/terms/r/rsi.asp}\\
+We will train the classifier on some specific features, accordingly to what we found on the internet. One of the indicators many beginners are told to use, are two moving averages, and when the functions cross it's an indicator to enter a trade, and also in what direction to enter the trade, the reasons why this is a good idea is explained in this video \url{https://www.youtube.com/watch?v=2_csKQ6iqx4} from a website called "Financialtradingschool.com", he also explains about Price Action and how to use it in a strategy in the following video \url{https://www.youtube.com/watch?v=6FPfY1z1MyA}. So far we know, that we should look at two SMA functions, a slow and a fast, and look at when they cross. We also know that we should look at the prices directly in order to use it for Price Action, however since Price Action really is just a strategy to trade if the price reaches a certain point, we let our classifier doing the job, of defining when to trade or not directly based on the current prices of the currencies. Another indicator we found using the powerful internet was the relative strength index or the RSI indicator as it, is called in finance. Directly cited from \url{http://www.investopedia.com/terms/r/rsi.asp}\\
 \\
 ("A technical momentum indicator that compares the magnitude of recent gains to recent losses in an attempt to determine overbought and oversold conditions of an asset.").\\ \\
 
@@ -226,7 +226,7 @@ So far all our data have been collected over several day's, with a 5 min interva
 To see how well our classifier works, we use our Random trader with both the control data, and the larger data, these test represents how a normal person might trade. We ran these test several times, and not a single time did we end with a positive closed profit. This is quite expected, and also shows that without having knowledge of professional trader, or in our case having a bot trading for you.
 
 \section{Conclusion}
-
+Through this process we have gathered several data sets, some larger than others, and used these to train a classifier to automatically make currency trades. All but one test of the classifier have resulted in a positive closed profit. 
 
 Improvements:
 A classifier that updates it self with newer data.
