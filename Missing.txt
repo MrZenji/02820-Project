@@ -1,8 +1,9 @@
-Check variable names - DONE
+﻿Check variable names - DONE
 Testing - DONE
 Docstrings - DONE
-README.MD - Kevin
+README.MD - DONE
 Skriv de forskellige dataer der kan bruges inde i driver.
+?(Hvad menes med denne)
 
 Kig rapport igennem for stavefejl og forståelses fejl.
 

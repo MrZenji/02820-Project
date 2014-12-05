@@ -6,11 +6,11 @@ on the FOREX market on historical data, and use the historical data to train a n
 <h2>Requirements</h2>
 <ul>
 	<li>Python2.7</li>
-	<li>[TA-Lib](http://ta-lib.org/hdr_dw.html) already installed</li>
+	<li>TA-Lib already installed on the pc</li>
 	<li>TA-Lib python wrapper</li>
 </ul>
 
-The TA-Lib can be found and downloaded from the following site
+The TA-Lib can be found and downloaded from the following site: [TA-Lib](http://ta-lib.org/hdr_dw.html)
 <br />
 The TA-Lib python wrapper can be found at the following github site: https://github.com/mrjbq7/ta-lib
 <br />
