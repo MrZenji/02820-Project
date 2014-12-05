@@ -226,7 +226,7 @@ So far all our data have been collected over several day's, with a 5 min interva
 To see how well our classifier works, we use our Random trader with both the control data, and the larger data, these test represents how a normal person might trade. We ran these test several times, and not a single time did we end with a positive closed profit. This is quite expected, and also shows that without having knowledge of professional trader, or in our case having a bot trading for you.
 
 \section{Conclusion}
-Through this process we have gathered several data sets, some larger than others, and used these to train a classifier to automatically make currency trades. All but one test of the classifier have resulted in a positive closed profit. We also show that using our classifier to trade, is better than letting a normal person trade. To improve our classifier, we would need to implement an updater, that trains the classifier with the newest data each interval. Most of our features are also some that newer traders use, therefore using other more intricate features might result in lower risk. 
+Through this process we have gathered several data sets, some larger than others, and used these to train a classifier to automatically make currency trades. All but one test of the classifier have resulted in a positive closed profit, this shows that our classifier makes good trades, that gives profit. We also show that using our classifier to trade, is better than letting a normal person trade, because we get profit with our classifier and loss with the random trader. To improve our classifier, we would need to implement an updater, that trains the classifier with the newest data each interval, by deleting the oldest data and add the newer. Most of our features are also some that newer traders use, therefore using other more intricate features might result in lower risk. By creating this classifier and making it trade for us, it is possible to let it trade for us and get profit, but there still is some risk.
 
 \section{Terms \& abbrivations}
 \begin{table}[h!]
@@ -253,46 +253,46 @@ Machine Learning & NBC & Naive Bayes Classifiers\\
 
 \begin{figure}
     \includegraphics[scale = 0.5]{data-96-10000-20.png}
-    \caption{This is a graph of the closed profit, on the control data.}
+    \caption{This is a graph of the closed profit, on the control data, with a 5 min interval.}
 \end{figure}
 
 \begin{figure}
     \includegraphics[scale = 0.5]{data-96-10000-400.png}
-    \caption{This is a graph of the closed profit, on the control data, with a leverage at 400.}
+    \caption{This is a graph of the closed profit, on the control data, with a leverage at 400 and with a 5 min interval.}
 \end{figure}
 
 \begin{figure}
     \includegraphics[scale = 0.5]{data-85-10000-20.png}
-    \caption{This is a graph of the closed profit, on the control data, with a confidence level at 85\%.}
+    \caption{This is a graph of the closed profit, on the control data, with a confidence level at 85\% and with a 5 min interval.}
 \end{figure}
 
 \begin{figure}
     \includegraphics[scale = 0.5]{fxdata-96-10000-20.png}
-    \caption{This is a graph of the closed profit, on the larger data.}
+    \caption{This is a graph of the closed profit, on the larger data, with a 5 min interval.}
 \end{figure}
 
 \begin{figure}
     \includegraphics[scale = 0.5]{newdata-96-10000-20.png}
-    \caption{This is a graph of the closed profit, on the newer data.}
+    \caption{This is a graph of the closed profit, on the newer data, with a 5 min interval.}
 \end{figure}
 
 \begin{figure}
     \includegraphics[scale = 0.5]{new2data-96-10000-20.png}
-    \caption{This is a graph of the closed profit, on the one day data.}
+    \caption{This is a graph of the closed profit, on the one day data, with a 5 sec interval.}
 \end{figure}
 
 \begin{figure}
     \includegraphics[scale = 0.5]{new2data-96-10000-400.png}
-    \caption{This is a graph of the closed profit, on the one day data, with a leverage on 400.}
+    \caption{This is a graph of the closed profit, on the one day data, with a leverage on 400 and with a 5 sec interval.}
 \end{figure}
 
 \begin{figure}
     \includegraphics[scale = 0.5]{data-random-10000-20.png}
-    \caption{This is a graph of the closed profit, on the control data, with the random trader.}
+    \caption{This is a graph of the closed profit, on the control data, with the random trader, with a 5 min interval.}
 \end{figure}
 
 \begin{figure}
     \includegraphics[scale = 0.5]{fxdata-random-10000-20.png}
-    \caption{This is a graph of the closed profit, on the larger data, with the random trader.}
+    \caption{This is a graph of the closed profit, on the larger data, with the random trader, with a 5 min interval.}
 \end{figure}
 \end{document}
