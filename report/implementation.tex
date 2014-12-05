@@ -1,8 +1,32 @@
 \subsection{Order}
-Explain about how an order is closed and something about the spread and also what kind of properties and method the order have
+Explain about how an order is closed and something about the spread and also what kind of properties and method the order have.
+
+In the terminology of the FX market, an order contains all the relevant informations regarding the positions the trader opens. The information, that every order needs to have is the following.
+\\
+\\
+the \textbf{required} is shown in bold
+\begin{itemize}
+\item{units}
+\item{side}
+\item{take profit}
+\item{stop loss}
+\item{duration or expatriation date}
+\item{signals}
+\end{itemize}
+
+In addition to these properties the Order class does also contain the following methods.
+\begin{itemize}
+\item{check for close}
+\item{close}
+\end{itemize}
+
+However we choose to save even more, we also store the signals the order was based on, this data will later be used by the classifier. 
+In trading it's usually not enough to know, when it is smart to enter a trade. You also need to know when you should exit a trade, or to say it in terms of the FX market, you need to know when you should close your orders. In our implementation we do this by letting the order be set by some goals on the take profit, and stop loss and if the price ever reaches above or below those prices the order will return how much it's worth in the account currency. All the logic about when the order should be closed is happening in the check for close method. The close method is used to close the order right now. In other words, the check for close will only close the order if the order reaches it take profit or stop losses points or if it has reached it expiration date.
+One thing that is very important to stress is that every time we close an order we take the spread into consideration and sell or buy at the lowest price. The way that we take the spread into consideration is that we buy at the highest available price, and sell at the lowest available price.
 
 \subsection{Order Manager}
-Explain about this class is managing every open order, and is also responsible for creating new trades
+Explain about this class is managing every open order, and is also responsible for creating new trades. Some methods that should be explained in depth signal generator, update, and crossGraph.
 
 \subsection{Classifier}
 Explain a bit more in detail how the Classifier works, by going a little into detail in how a naive bayes classifier works. And what the meaning of the confidence interval is.
+features

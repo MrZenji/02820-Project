@@ -42,5 +42,5 @@ random *May differ if run another time : DONE
 data - 10000 - 20 : -398,447547757 profit ; 23 days ; -17,32 profit/day
 fxdata - 10000 - 20 : -9998,00208074 profit ; 2557 days ; -3,91 profit/day
 
-- Discussion - Benjamin
+- Discussion - Benjamin - DONE
 - Conclussion
