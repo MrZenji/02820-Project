@@ -7,13 +7,8 @@ Skriv de forskellige dataer der kan bruges inde i driver.
 
 Kig rapport igennem for stavefejl og forståelses fejl.
 
-fodnoter hvor vi nævner andre artikler
-
-Find ud af om de features vi vil bruge er de rigtige
-Information on hvilke features der er best skal have reference
-
 report:
-- Introduction - Benjamin
+- Introduction - Anders DONE
 - Design - Benjamin DONE
 - Implementation - Kevin
 
@@ -42,5 +37,5 @@ random *May differ if run another time : DONE
 data - 10000 - 20 : -398,447547757 profit ; 23 days ; -17,32 profit/day
 fxdata - 10000 - 20 : -9998,00208074 profit ; 2557 days ; -3,91 profit/day
 
-- Discussion - Benjamin - DONE
-- Conclussion
+- Discussion - Benjamin DONE
+- Conclussion DONE
