@@ -2,6 +2,7 @@ Check variable names - DONE
 Testing - DONE
 Docstrings - DONE
 README.MD - Kevin
+Skriv de forskellige dataer der kan bruges inde i driver.
 
 Kig rapport igennem for stavefejl og forståelses fejl.
 

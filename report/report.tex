@@ -197,20 +197,26 @@ Now that we have several test data, with the profit and by knowing how many days
 \end{tabular}
 
 \section{Discussion}
-Vis graf for control data\\
-Snak om bedste og dårligste med control data - hvorfor\\
-snak om large data\\
-snak om ny data\\
-snak om one day data \\
-snak om random trader\\
 
+By changing some of the variables for the control data, we retrieve a result for the control data, one with the leverage on 400 and one with the confidence level on 85\%.\\
+In these cases, the test with leverage on 400 gets the best result, even though we multiply the leverage with 20, the profit gained is more than 20 times the control(, it is 25 times more). This is due to that each time we make a trade we use 2\%, of the current account balance, which is capital projection. Changing the leverage creates a bigger risk, but might also improve the gain.\\
+When we reduce the confidence level to 85\%, the classifier opens more trades, that have a higher risk, than with the leverage. This is duo to that you might get profit on more trades but the profit on each trade is closely the same, but duo to the higher risk you might also loose profit on more orders than earlier.\\
 \begin{figure}[h]
     \includegraphics[scale = 0.5]{data-96-10000-20.png}
-    \caption{Billedet af Labymide fra traileren.}
+    \caption{This is a graph of the closed profit, on the control data.}
 \end{figure}
+\\
+The next three result are where we keep the variables the same, but change the data we test on. So far we have had profit on each test, but with the large dataset, we get a closed profit of about -7250. Even though it might seem a lot, it is less than 3 dollars a day, spanning over 7 years. This shows that even with a confidence level on 96\%, you still might lose your money. By looking at the graph for the large data LINK TO GRAPH, we see that in the beginning, the classifier creates positive profit, but as we go on it looses. This might be because that we do not update the classifier each state.\\
+We therefore also made a test data, that was newer than both the large data and the control data. By looking at this graph LINK, we see that the classifier makes less trades, but also makes some larger mistakes. Even though we end in a profit with this data set, it is around 12 times less than in the control data. This confirms our theory that the classifier needs to be updated regularly to be able to work properly.
+\\
+So far all our data have been collected over several day's, with a 5 min interval. We therefore decided to have a data set from a single day, with a 5 sec interval. 
 
 \section{Conclusion}
 
+
+Improvements:
+A classifier that updates it self with newer data.
+Using other features
 
 \section{Terms \& abbrivations}
 \begin{tabular}{l | l | l}
