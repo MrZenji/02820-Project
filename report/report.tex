@@ -45,7 +45,7 @@ text centered, draw=black,fill=green!30]
 \maketitle
 
 \begin{abstract}
-This project will utilize the oandapy API to get realtime data from the currency market to analyze, as well as enter and exit trades on based on the analytics. In the analytics we are going to use a short and a long moving averages, furthermore we are going to use MCAD as an extra precaution before we enter trades and use recovery zones to prevent losses on the account
+This project will utilize the oandapy API to get realtime data from the currency market to analyse, as well as enter and exit trades on based on the analytics. In the analytics we are going to use a short and a long moving averages, furthermore we are going to use MCAD as an extra precaution before we enter trades and use recovery zones to prevent losses on the account
 \end{abstract}
 
 \section{Introduction}
@@ -55,7 +55,7 @@ Here will be written an introduction
 \section{Analysis}
 
 \subsection{Getting data}
-We obtain all the financial data of the financial instrument EUR vs USD on a 5 minute timeframe from oanda using their REST API for python. From oanda API we get the financial charts of the last 7 years from 2007-10-24 to 2014-10-24. After obtaining the data, it is stored in json fileformat in a file called "fxdata.txt", this allows us to use this data will then be used both to form our hypothosis of forex trading on the EUR vs USD currency pair, as well as performing a trading simulation on this set of data. However in order for us to use the naive Bayes classifier, we need to have two dataset's and not just a single one. In our domain the one dataset needs to be the trades which gained profit, and the other set needs consist of the trades which lost. When we then have the possibility to analyze the data with different sets of features.\\
+We obtain all the financial data of the financial instrument EUR vs USD, on a 5 minute timeframe from oanda, using their own REST API for python. From oanda's API we get the financial charts of a 7 year time period, going from 2007-10-01 to 2014-10-20. After obtaining the data, it is stored in json fileformat in a file called "fxdata.txt", this data will then be used both to form our hypothosis of forex trading on the EUR vs USD currency pair, as well as performing a trading simulation on this set of data. However in order for us to use the naive Bayes classifier, we need to have two dataset's and not just a single one. In our domain the one dataset needs to be the trades which gained profit, and the other set needs consist of the trades which lost. We then have the possibility to analyze the data with different sets of features.\\
 \\
 The pseudo code of the random trading algorithm, where we will keep the orders for no more than 20 minutes:
 
@@ -90,7 +90,7 @@ The pseudo code of the random trading algorithm, where we will keep the orders f
 This algorithm should theoretically give us equally profitable trades in both the long and the short direction.
 
 \subsection{Specific features}
-To analyze the data we use a supervised classification learning algorithm, or to be more specific we use a naive Bayes classifier, the idea is to use a naive Bayes classifier on our financial data we gathered using our random algorithm. This isn't a new concept, in fact there are a couple of scientific articles on this already, as can be seen in the article by KAWABATA and TAKATA \cite{fxNaiveBayes}. We will train the classifier on some specific features, however we will only use 2-3 features per training round. The training will be made in two rounds and the features are the following
+To analyse the data we use a supervised classification learning algorithm, or to be more specific we use a naive Bayes classifier, the idea is to use a naive Bayes classifier on our financial data we gathered using our random algorithm. This isn't a new concept, in fact there are a couple of scientific articles on this already, as can be seen in the article by KAWABATA and TAKATA \cite{fxNaiveBayes}. We will train the classifier on some specific features, however we will only use 2-3 features per training round. The training will be made in two rounds and the features are the following
 \begin{itemize}
 	\item{CrossGraph(SMA(10,40))}
 	\item{RSI(period=100)}
@@ -134,7 +134,8 @@ The first round of features, is using some of the most common technical indicato
 
 
 \section{Design}
-Before we start trading, we need to start to train our classifier based on the feature set we would like to test. After the training is completed we can then start to trade based on our historical data. When the historical back testing is completed, the result of the trade is then shown on a graph, showing the balance of the account of a 5 minute interval. Here is a flow chart, showing how the flow of the forex data, and the decisions are being made.
+Before we start trading, we need to train our classifier based on the feature set we mentioned in the analysis. After the training is completed, we can then start trading based on our historical data. 
+After a completed run of the historical data, the result of the trade is then shown on a graph, showing the profit/loss of a 5 minute interval. Figure 1. is showing a flowchart of how the trading cycles. From this we know that we need a driver to run the program, that retrieves signals from either the Random trader or the classifier, depending on what is chosen. The driver then creates orders of trades, but to keep track of them all, we need an order manager. The driver also needs to be able to withdraw/deposit money to an account manager. Figure 2. is showing the class diagram on how we will implement it all.  
 
 
 
@@ -148,9 +149,7 @@ Before we start trading, we need to start to train our classifier based on the f
 		\node[block,below of=orderManager](order){Order};		
 		\node[block,right of=driver,xshift=5em](signalGenerator){SignalGenerator};
 		\node[block,below of=signalGenerator](random){RandomTrader};				
-		\node[block,below of=random](1stClassifier){1stClassifier};		
-		\node[block,below of=1stClassifier](2ndClassifier){2ndClassifier};		
-		\node[block,below of=2ndClassifier](3rdClassifier){3rdClassifier};						
+		\node[block,below of=random](Classifier){Classifier};						
 		%arrows
 		\path[arrowLine](streamer)--(driver);		
 		\path[arrowLine](accountManager)--(driver);				
@@ -158,9 +157,7 @@ Before we start trading, we need to start to train our classifier based on the f
 		\path[line](orderManager)--(order);
 		\path[arrowLine](signalGenerator)--(driver);
 		\path[line](signalGenerator)--(random);				
-		\path[line](random)--(1stClassifier);		
-		\path[line](1stClassifier)--(2ndClassifier);
-		\path[line](2ndClassifier)--(3rdClassifier);				
+		\path[line](random)--(Classifier);						
 	\end{tikzpicture}
 \end{center}
 \caption{Overview of Classes}
@@ -173,12 +170,28 @@ Before we start trading, we need to start to train our classifier based on the f
 Here we explain about the program itself
 
 \section{Test \& Results}
-
 \subsection{Test}
-All of the classifiers will be tested using both a sort term test, and a long term test, the short term test is from September 2014 to October 2014, stretching over 5000 times 5 minutes. The long term test is stretching from 24th of October 2007 to 24th of October 2014 corresponding to about 535.000(536.252) times 5 minutes.
-All of the classifiers have been tested using a strategy with take profit, and stop losses of a risk of 1:2 meaning that for every dollar you risk, you can only earn 2 dollars, also the order is automatically stopped if a stop criteria hasn't been meet in 20 minutes.
-
+Our control test are made by running the program on the data.txt, with a leverage at 20, an account on 10000\$, and set the confidence level of the classifier at 96\%. When the program have gone though data.txt, we retrieve the profit/loss. Hereafter we deviate one variable from the control, firstly we change the leverage to 400, then we change the confidence level of the classifier to 85\%, then we use data that goes from 2007 to 2014, then newer data going from 2014/11/10 -2014/12/03 and the last data we go through is from the 2014/12/03 with a 5 second interval.\\
+\\
+We also test the random trader to see how effective it is, on both the control data and the large data FOOTNOTE The result may differ because the trade is random.\\
+\\
+We have generated graphs for each test, that shows the profit/loss on each interval, and the exchange rate for EUR/USD on each interval. FOOTNOTE See appendix for graphs
 \subsection{Results}
+
+\begin{tabular}{  l | c | c | c |}
+\cline{2-4}
+& Profit & Days & Profit/Days \\ \hline
+\multicolumn{1}{ |c| }{Control data} & 357,18 & 23 & 15,53 \\ \hline
+\multicolumn{1}{ |c| }{leverage=400} & 8974,66 & 23 & 390,20 \\ \hline
+\multicolumn{1}{ |c| }{confidence=0.85} & 189,32 & 23 & 8,23 \\ \hline
+\multicolumn{1}{ |c| }{Large data} & -7251,99 & 2557 & -2,84 \\ \hline
+\multicolumn{1}{ |c| }{Never data} & 31,54 & 24 & 1,31 \\ \hline
+\multicolumn{1}{ |c| }{One day data} & 36,18 & 1 & 36,18 \\ \hline
+\multicolumn{1}{ |c| }{One day data leverage=400} & 713,91 & 1 & 713,91 \\ \hline
+\multicolumn{1}{ |c| }{Random Control} & -398,45 & 23 & -17,32 \\ \hline
+\multicolumn{1}{ |c| }{Random Large} & -9998,00 & 2557 & -3,91 \\ \hline
+\hline
+\end{tabular}
 
 \section{Discussion}
 
