@@ -46,13 +46,14 @@ text centered, draw=black,fill=green!30]
 \maketitle
 
 \begin{abstract}
-This project will utilize the oandapy API to get realtime data from the currency market to analyse, as well as enter and exit trades on based on the analytics. In the analytics we are going to use a short and a long moving averages, furthermore we are going to use MCAD as an extra precaution before we enter trades and use recovery zones to prevent losses on the account
+This project will utilize the fact, that history is bound to repeat itself. Especially during in trading situations, where there is little to no fluctuations. We will try to grasp the power of the history by making use of old market data from the forex market on one of the most traded currency pairs EUR vs USD. We will get the historical data from Oanda using their API for python. We will learn from the past success from our previous trading and use the lessons learned from these trades, to train a classifier, which can then tell us when and how to trade.
 \end{abstract}
 
 \section{Introduction}
-We all know the feeling about having money, but we also know the feeling of all the work we have to do in order to get the money.
-But what if you could have someone doing it for you? In this project we will try to make an automated trading bot. This bot will use oanda's API, and in that way get a currency data and make trades on it.
-For retrieving the data and making trades we will use machine learning with python, and in that way hopefully end out with some sort of profit.
+We all know the lovely feeling of having money in our pockets, however we also know how hard it is, and how much work needs to be done in order to get money. But what if all that is about to change, what if you could have somebody doing it for you, and you earn money on their hard work?\\
+	Well this is really what leadership is all about, letting some one do the work, you take the risk if they do it wrong, but most of the time the employees do it right and the owner makes profit. However this project isn't about leadership, since not everybody can be a leader, what we suggest instead to make use of the power of computers or to be more precise an automated trading bot, that trades 24/7 every weekday on your behalf.\\
+	This bot will use the oanda's API, and in that way get a currency data and make trades based on it.
+For retrieving the data as well as making trades we will use machine learning with python, and in that way hopefully end up with some sort of profit.
 
 
 \section{Analysis}
@@ -221,7 +222,8 @@ So far all our data have been collected over several day's, with a 5 min interva
 To see how well our classifier works, we use our Random trader with both the control data, and the larger data, these test represents how a normal person might trade. We ran these test several times, and not a single time did we end with a positive closed profit. This is quite expected, and also shows that without having knowledge of professional trader, or in our case having a bot trading for you.
 
 \section{Conclusion}
-Through this process we have gathered several data sets, some larger than others, and used these to train a classifier to automatically make currency trades. All but one test of the classifier have resulted in a positive closed profit, this shows that our classifier makes good trades, that gives profit. We also show that using our classifier to trade, is better than letting a normal person trade, because we get profit with our classifier and loss with the random trader. To improve our classifier, we would need to implement an updater, that trains the classifier with the newest data each interval, by deleting the oldest data and add the newer. Most of our features are also some that newer traders use, therefore using other more intricate features might result in lower risk. By creating this classifier and making it trade for us, it is possible to let it trade for us and get profit, but there still is some risk.
+Through this process we have gathered several data sets, some larger than others, and used these to train a classifier to automatically make trades based on financial signals. All but one of the test from the classifier have resulted in a positive closed profit, the profit is even made regardless of the interval chosen even through the classifier is trained on 5-min interval it does well when given the opportunity to perform on a 5-sec interval. All of these profits indicates that our classifier enters it's  trades on the correct time and with the correct guess. We also show that using our classifier to trade, is better than letting a normal person trade randomly, because we get a profit with our classifier and loss with the random trader, on the same dataset. 
+In order to improve our classifier, we would need to implement an updater, that trains the classifier with the newest data each interval, by deleting the oldest data and add the newest. Most of our current features are also some that people who is just learning about FX trading will know, therefore using other more intricate features might result in lower risk and hopefully a higher profit. By creating this classifier and making it trade for us, it is possible to let it trade for us and get profit, but there still is some risk. This fits perfectly with the economics theory, that there doesn't exist free arbitrage opportunities on the market, and if they really exist they are used and exploited in the blink of an eye\url{http://www.investopedia.com/terms/a/arbitrage.asp}.
 
 \section{Terms \& abbrivations}
 \begin{table}[h!]
@@ -234,9 +236,6 @@ Trading & Bid & An offer made by an investor,\\
 & & a trader or a dealer to buy a security\\
 Trading & Ask & The price a seller is willing to accept for a security\\
 Trading & SMA & Simple Moving Average\\
-Trading & MACD & Moving Average Convergence/Divergence\\
-Trading & SAR & Parabolic SAR(Parabolic Stop and Reverse)\\
-Machine Learning & NBC & Naive Bayes Classifiers\\
 \end{tabularx}
 \end{table}
 

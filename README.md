@@ -8,6 +8,7 @@ on the FOREX market on historical data, and use the historical data to train a n
 	<li>Python2.7</li>
 	<li>TA-Lib already installed on the pc</li>
 	<li>TA-Lib python wrapper</li>
+	<li>nltk</li>
 </ul>
 
 The TA-Lib can be found and downloaded from the following site: [TA-Lib](http://ta-lib.org/hdr_dw.html)
@@ -43,4 +44,14 @@ $ untar and cd
 $ ./configure --prefix=/usr
 $ make
 $ sudo make install
+```
+
+<h3>installing the nltk</h3>
+To install the nltk package in your python environment simply type 
+```
+$ pip install nltk
+```
+or 
+```
+$ easy_install nltk
 ```
